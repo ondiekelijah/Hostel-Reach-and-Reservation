@@ -39,6 +39,10 @@ def reroute():
 def index():
     return render_template("index.html")
 
+@app.route('/edit')
+def edit():
+    return render_template("edit_user.html")
+
 @app.errorhandler(400)
 def bad_request(e):
     return render_template("errors/400.html", title="Bad Request"), 400

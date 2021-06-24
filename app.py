@@ -60,15 +60,18 @@ def create_app():
             # and current_user.is_administrator()
             return access
         
-    admin = Admin(app,name='Infokit Admin', template_mode='bootstrap3')
+    admin = Admin(app,name='Admin Panel', template_mode='bootstrap3')
     from .models import User,Role
-    admin.add_view(MyModelView(User, db.session))
+    admin.add_view(MyModelView(User, db.session,menu_icon_type="fa",menu_icon_value="fa-list"))
     admin.add_view(MyModelView(Role, db.session))
 
 
     from .auth.routes import auth
 
+
+
     app.register_blueprint(auth)
+
 
     return app
 
