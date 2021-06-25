@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title%} {{ title }} {% endblock %}
+{% block content%}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 col-lg-12 px-0 h-100 bg-white shadow-sm">
+            <div class="table-responsive-lg">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Location</th>
+                            <th scope="col">Management</th>
+                            <th scope="col">No.Rooms</th>
+                            <th scope="col">Caretaker</th>
+                            <th scope="col">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for hostel in hostels %}
+                        <tr>
+                            <th scope="row">{{ hostel.name }}</th>
+                            <td>{{ hostel.location }}</td>
+                            <td>{{ hostel.management }}</td>
+                            <td>{{ hostel.rooms }}</td>
+                            <td>{{ hostel.caretaker }}</td>
+                            <td>{{ hostel.description }}</td>
+                            <td>
+                                <button type="button" class="btn btn-primary">
+                                    <a href="#" class="text-white">More<i class="bi bi-plus m-1"></i> </a>
+                                </button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+{% endblock%}

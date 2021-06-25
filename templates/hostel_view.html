@@ -24,81 +24,69 @@
             </tr>
         </tbody>
     </table>
-
-
-
-
-<p>
-  <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-    Add rooms
-  </a>
-
-</p>
-<div class="collapse" id="collapseExample">
-    
-    <form method="POST" action="{{ request.path }}">
-        {{ form.csrf_token }}
-        <div class="form-group">
-            {{ form.rent(class="form-control",placeholder="Rent in Kshs")}}
-        </div>
-        {% for error in form.rent.errors %}
-        <div class="alert alert-danger mt-2">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            {{ error }}
-        </div>
-        {% endfor%}
-        <div class="form-group">
-            {{ form.deposit(class="form-control",placeholder="Deposit in Kshs")}}
-        </div>
-        {% for error in form.deposit.errors %}
-        <div class="alert alert-danger mt-2">            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            {{ error }}
-        </div>
-        {% endfor%}
-        <div class="form-group">
-            {{ form.amenities(class="form-control",placeholder="Amenities")}}
-        </div>
-        <div class="form-group">
-            {{ form.size(class="form-control",placeholder="Size")}}
-        </div>
-        <div class="form-group">
-            {{ form.status(class="form-control",placeholder="Status")}}
-        </div>
-        <button type="submit" class="btn btn-primary"> {{ action_btn }} </button>
-    </form>
-
-</div>
-
-
-
-
-
-
+    <p>
+        <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+            Add rooms
+        </a>
+    </p>
+    <div class="collapse" id="collapseExample">
+        <form method="POST" action="{{ request.path }}">
+            {{ form.csrf_token }}
+            <div class="form-group">
+                {{ form.rent(class="form-control",placeholder="Rent in Kshs")}}
+            </div>
+            {% for error in form.rent.errors %}
+            <div class="alert alert-danger mt-2">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {{ error }}
+            </div>
+            {% endfor%}
+            <div class="form-group">
+                {{ form.deposit(class="form-control",placeholder="Deposit in Kshs")}}
+            </div>
+            {% for error in form.deposit.errors %}
+            <div class="alert alert-danger mt-2"> <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {{ error }}
+            </div>
+            {% endfor%}
+            <div class="form-group">
+                {{ form.amenities(class="form-control")}}
+            </div>
+            <div class="form-group">
+                {{ form.size(class="form-control",placeholder="Size")}}
+            </div>
+            <div class="form-group">
+                {{ form.status(class="form-control",placeholder="Status")}}
+            </div>
+            <button type="submit" class="btn btn-primary"> {{ action_btn }} </button>
+        </form>
+    </div>
 </div>
 <div class="container">
     <p class="lead text-muted">Available Rooms </p>
+    <div class="table-responsive-lg">
         <table class="table table-hover">
-        <thead>
-            <tr>
-                <th scope="col">Rent</th>
-                <th scope="col">Deposit</th>
-                <th scope="col">Amenities</th>
-                <th scope="col">Size</th>
-                <th scope="col">Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for room in rooms %}
-            <tr>
-                <th scope="row">{{ room.rent }}</th>
-                <td>{{ room.deposit }}</td>
-                <td>{{ room.amenities }}</td>
-                <td>{{ room.size }}</td>
-                <td>{{ room.status }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
+            <thead>
+                <tr>
+                    <th scope="col">Rent</th>
+                    <th scope="col">Deposit</th>
+                    <th scope="col">Amenities</th>
+                    <th scope="col">Size</th>
+                    <th scope="col">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for room in rooms %}
+                <tr>
+                    <th scope="row">{{ room.rent }}</th>
+                    <td>{{ room.deposit }}</td>
+                    <td>{{ room.amenities }}</td>
+                    <td>{{ room.size }}</td>
+                    <td>{{ room.status }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 {% endblock%}

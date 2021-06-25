@@ -26,6 +26,13 @@ from flask_login import (
 app = create_app()
 
 
+# @app.context_processor
+# def my_global_objects():
+#     global_hostels = Hostel.query.with_entities(Hostel.name, Hostel.id)
+#     jibu = dict(global_hostels)
+#     print(jibu)
+#     return jibu
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))

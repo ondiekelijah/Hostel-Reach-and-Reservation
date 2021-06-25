@@ -7,6 +7,7 @@ from wtforms import (
     IntegerField,
     DateField,
     TextAreaField,
+    SelectMultipleField
 )
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
@@ -67,7 +68,7 @@ class AddHostel(FlaskForm):
 class Rooms(FlaskForm):
     rent = IntegerField(validators=[InputRequired()])
     deposit = IntegerField(validators=[InputRequired()])
-    amenities = SelectField("Amenities", choices=[('Wifi'),('Study table'),('Bed'),('Wardrobe'),('Kitchen Shelves')])
+    amenities = SelectField(choices=[('Wifi'),('Study table'),('Bed'),('Wardrobe'),('Kitchen Shelves')])
     size = SelectField("Size", choices=[('Single'),('Bedsitter'),('1 B'),('2 B')]) 
     status = SelectField("Status", choices=[('Vacant'),('Booked'),('Occupied')])
 

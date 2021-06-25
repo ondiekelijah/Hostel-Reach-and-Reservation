@@ -15,6 +15,7 @@ from flask_login import (
     logout_user,
     login_required,
 )
+
 from flask import (
     Flask,
     render_template,
@@ -23,6 +24,8 @@ from flask import (
     flash,
     url_for,
     abort,
+    session,
+    g,
     send_from_directory,
 )
 from werkzeug.routing import BuildError
@@ -44,16 +47,27 @@ adm = Blueprint("adm", __name__, url_prefix="/auth")
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-
-
+def global_hostels():
+    g_hostels = Hostel.query.with_entities(Hostel.name, Hostel.id)
+    g.global_h = list(g_hostels)
+    return g.global_h
+    
 
 # ADMIN route
 @adm.route("/admin", methods=("GET", "POST"), strict_slashes=False)
 def admindash():
-    return render_template("dashboard.html")
+    hostels = Hostel.query.order_by(Hostel.id.desc()).all()
+    return render_template("dashboard.html",hostels=hostels)
+
+@adm.route("/results", methods=("GET", "POST"), strict_slashes=False)
+def result():
+    hostels = Hostel.query.order_by(Hostel.id.desc()).all()
+    return render_template("action.html",hostels=hostels)
+
 
 @adm.route("/users", methods=("GET", "POST"), strict_slashes=False)
 def users():
+    all_hostels = global_hostels()
     users = User.query.order_by(User.id.desc()).all()
     form = register_form()
     if form.validate_on_submit():
@@ -92,7 +106,7 @@ def users():
             db.session.rollback()
             flash(f"An error occured !", "danger")
 
-    return render_template("users.html",form=form,users=users,action="Add User",action_btn="Save")
+    return render_template("users.html",form=form,users=users,all_hostels=all_hostels,action="Add User",action_btn="Save")
 
 
 @adm.route("/transactions", methods=("GET", "POST"), strict_slashes=False)
@@ -152,7 +166,7 @@ def hostels():
 def hostel_view(hostel_id):
     form = Rooms()
     hostel =  Hostel.query.filter_by(id=hostel_id).first()
-    rooms= Room.query.filter_by(id=hostel_id).order_by(Room.id.desc()).all()
+    rooms= Room.query.filter_by(hostel_id=hostel_id).order_by(Room.id.desc()).all()
     
     if form.validate_on_submit():
         try:
