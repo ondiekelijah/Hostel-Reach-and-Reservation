@@ -103,3 +103,31 @@ login_manager.anonymous_user = AnonymousUser
 
 
 
+
+class Hostel(UserMixin, db.Model):
+    __tablename__ = "hostel"
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False, index=True, unique=True)
+    location = db.Column(db.String(300), nullable=False)    
+    management = db.Column(db.String(300), nullable=False) 
+    rooms = db.Column(db.String(100), nullable=False)
+    caretaker = db.Column(db.String(300), nullable=False) 
+    description = db.Column(db.Text, nullable=False)
+
+    def __repr__(self):
+        return '<Hostel %r>' % self.name
+
+
+class Room(UserMixin, db.Model):
+    __tablename__ = "room"
+    id = db.Column(db.Integer, primary_key=True)
+    rent = db.Column(db.Integer)
+    deposit = db.Column(db.Integer)
+    amenities = db.Column(db.String(300), nullable=False)
+    size= db.Column(db.String(300), nullable=False)
+    status = db.Column(db.String(300), nullable=False)
+    hostel_id = db.Column(db.Integer,nullable = False)
+
+
+    def __repr__(self):
+        return '<Room %r>' % self.rent

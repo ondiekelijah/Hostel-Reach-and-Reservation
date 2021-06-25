@@ -1,0 +1,86 @@
+{% extends "admin_base.html" %}
+{% block title%} {{ title }} {% endblock %}
+{% block content%}
+<div class="container">
+    <h3 class="text-primary">Users</h3>
+    <div class="container">
+        <p>
+            <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                Add User
+            </a>
+        </p>
+        <div class="collapse" id="collapseExample">
+            <form method="POST" action="{{ request.path }}">
+                {{ form.csrf_token }}
+                <div class="form-group">
+                    {{ form.email(class="form-control",placeholder="Email")}}
+                </div>
+                {% for error in form.email.errors %}
+                <div class="alert alert-danger mt-2">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{ error }}
+                </div>
+                {% endfor%}
+                <div class="form-group">
+                    {{ form.uname(class="form-control",placeholder="Username")}}
+                </div>
+                {% for error in form.uname.errors %}
+                <div class="alert alert-danger mt-2">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{ error }}
+                </div>
+                {% endfor%}
+                <div class="form-group">
+                    {{ form.pwd(class="form-control",placeholder="Password")}}
+                </div>
+                {% for error in form.pwd.errors %}
+                <div class="alert alert-danger mt-2">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{ error }}
+                </div>
+                {% endfor%}
+                <div class="form-group">
+                    {{ form.cpwd(class="form-control",placeholder="Confirm Password")}}
+                </div>
+                {% for error in form.cpwd.errors %}
+                <div class="alert alert-danger mt-2">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{ error }}
+                </div>
+                {% endfor%}
+                <button type="submit" class="btn btn-primary"> {{ action_btn }} </button>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="container m-1">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Username</th>
+                <th scope="col">Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <th scope="row">{{ user.id }}</th>
+                <td>{{ user.uname }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                    <button type="button" class="btn btn-primary">
+                        <a href="{{ url_for('adm.account',user_id = user.id) }}" class="text-white">Edit</a>
+                    </button>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+                        <a href="{{ url_for('adm.delete_user',user_id = user.id) }}" class="text-white">Delete</a>
+                    </button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock%}
