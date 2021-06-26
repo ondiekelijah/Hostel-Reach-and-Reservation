@@ -30,8 +30,7 @@
                         <td>{{ room.status }} <i class="bi bi-person-check-fill text-primary"></i></td>
                         {% endif %}
                         <td>
-                            <button type="button" class="btn btn-primary">Edit</button>
-                            <button type="button" class="btn btn-danger">Delete</button>
+                            <button type="button" class="btn btn-primary"> <a href="{{url_for('adm.edit_room',room_id = room.id,hostel_id=room.hostel_id)}}" class="text-white">Edit Room</a> </button>
                         </td>
                     </tr>
                     {% endfor %}

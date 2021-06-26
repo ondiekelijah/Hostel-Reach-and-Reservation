@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title%} {{ title }} {% endblock %}
+{% block content%}
+<div class="container booking">
+    <div class="row bg-white shadow-sm p-3 px-0 h-100">
+        <div class="col-md-6 m-2">
+            <div class="w3-row">
+                <div class="w3-half">
+                    <label>Monthly Rent</label>
+                    <p><i class="bi bi-check2-circle text-success m-1"></i>Kshs. {{ room.rent }}</p>
+                </div>
+                <div class="w3-half">
+                    <label>Entry Deposit</label>
+                    <p><i class="bi bi-check2-circle text-success m-1"></i>Kshs. {{ room.deposit }}</p>
+                </div>
+                <div class="w3-half">
+                    <label>Available</label>
+                    <p><i class="bi bi-check2-circle text-success m-1"></i>{{ room.amenities }}</p>
+                </div>
+                <div class="w3-half">
+                    <label>Size</label>
+                    <p><i class="bi bi-check2-circle text-success m-1"></i>{{ room.size }}</p>
+                </div>
+           
+                <div class="w3-half">
+                    <label>Hostel Name</label>
+                    <p><i class="bi bi-check2-circle text-success m-1"></i>{{ hostel.name }}</p>
+                </div>
+                <div class="w3-half">
+                    <label>Location</label>
+                    <p><i class="bi bi-check2-circle text-success m-1"></i> {{ hostel.location }}</p>
+                </div>
+                <div class="w3-half">
+                    <label>Management</label>
+                    <p><i class="bi bi-check2-circle text-success m-1"></i>{{ hostel.management }}</p>
+                </div>
+                <div class="w3-half">
+                    <label>Caretaker's Name</label>
+                    <p><i class="bi bi-check2-circle text-success m-1"></i>{{ hostel.caretaker }}</p>
+                </div>
+                <div class="w3-half">
+                    <label>Caretaker's Contact</label>
+                    <p><i class="bi bi-check2-circle text-success m-1"></i>{{ hostel.contact }}</p>
+                </div>
+                <div class="w3-half">
+                    <label>Description</label>
+                    <p><i class="bi bi-check2-circle text-success m-1"></i>{{ hostel.description }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+{% endblock%}

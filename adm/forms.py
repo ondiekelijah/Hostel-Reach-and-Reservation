@@ -62,6 +62,7 @@ class AddHostel(FlaskForm):
     management = SelectField("Management", choices=[('Markie'),('Other')])
     rooms = StringField(validators=[InputRequired(),Length(min=1, max=100)])    
     caretaker = StringField(validators=[InputRequired(),Length(min=3, max=300)])
+    contact = StringField(validators=[InputRequired(),Length(10,13,message="Please provide a valid phone")])
     description = TextAreaField(validators=[InputRequired()])
 
 
@@ -74,3 +75,5 @@ class Rooms(FlaskForm):
 
 
 
+class Search(FlaskForm):
+    sval = StringField(validators=[InputRequired()])

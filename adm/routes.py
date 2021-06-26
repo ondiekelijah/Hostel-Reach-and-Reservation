@@ -59,12 +59,7 @@ def admindash():
     hostels = Hostel.query.order_by(Hostel.id.desc()).all()
     return render_template("dashboard.html",hostels=hostels)
 
-@adm.route("/results", methods=("GET", "POST"), strict_slashes=False)
-def result():
-    hostels = Hostel.query.order_by(Hostel.id.desc()).all()
-    return render_template("action.html",hostels=hostels)
-
-
+# All Users route
 @adm.route("/users", methods=("GET", "POST"), strict_slashes=False)
 def users():
     all_hostels = global_hostels()
@@ -108,11 +103,12 @@ def users():
 
     return render_template("users.html",form=form,users=users,all_hostels=all_hostels,action="Add User",action_btn="Save")
 
-
+# Transactions route
 @adm.route("/transactions", methods=("GET", "POST"), strict_slashes=False)
 def transactions():
     return render_template("transactions.html")
 
+# Hostels route
 @adm.route("/hostels", methods=("GET", "POST"), strict_slashes=False)
 def hostels():
     hostels = Hostel.query.order_by(Hostel.id.desc()).all()
@@ -124,6 +120,7 @@ def hostels():
             management = form.management.data
             rooms = form.rooms.data
             caretaker = form.caretaker.data
+            contact = form.contact.data
             description = form.description.data
             newHostel = Hostel(
                 name=name,
@@ -131,6 +128,7 @@ def hostels():
                 management=management,
                 rooms=rooms,
                 caretaker=caretaker,
+                contact=contact,
                 description=description
                 )
 
@@ -160,6 +158,7 @@ def hostels():
 
     return render_template("hostels.html",form=form,hostels=hostels,action="Add Hostel",action_btn="Save")
 
+# View Hostels Route
 @adm.route("/hostel/<int:hostel_id>/view", methods=("GET", "POST"), strict_slashes=False)
 @login_required
 # @admin_required
@@ -204,14 +203,16 @@ def hostel_view(hostel_id):
             db.session.rollback()
             flash(f"An error occured !", "danger")
 
-    return render_template("hostel_view.html",hostel=hostel,rooms=rooms,form=form,action_btn="Save")
-
+    return render_template("hostel_view.html",hostel=hostel,rooms=rooms,form=form,action_btn="Save",action_type="Add Room")
+# Rooms route
 @adm.route("/rooms", methods=("GET", "POST"), strict_slashes=False)
 def rooms():
     rooms = Room.query.order_by(Room.id.desc()).all()
 
     return render_template("rooms.html",rooms=rooms)
 
+                        # ALL EDIT ROUTES
+# Edit user route
 @adm.route("/edit/<int:user_id>", methods=("GET", "POST"), strict_slashes=False)
 @login_required
 # @admin_required
@@ -253,7 +254,107 @@ def account(user_id):
     return render_template("users.html",form=form,user=user,action="Edit User",action_btn="Save Changes")
 
 
+# Edit rooms route
 
+@adm.route("/rooms/<int:hostel_id>/<int:room_id>", methods=("GET", "POST"), strict_slashes=False)
+@login_required
+# @admin_required
+def edit_room(hostel_id,room_id):
+    form = Rooms()
+    hostel =  Hostel.query.filter_by(id=hostel_id).first()
+    rooms= Room.query.filter_by(hostel_id=hostel_id).order_by(Room.id.desc()).all()
+    room =  Room.query.filter_by(id=room_id).first()
+
+    if form.validate_on_submit():
+        try:
+            room.rent = form.rent.data
+            room.deposit = form.deposit.data
+            room.amenities = form.amenities.data
+            room.size = form.size.data
+            room.status = form.status.data
+
+            db.session.commit()
+            flash("Room has been updated", "success")
+            return redirect(url_for("adm.rooms"))
+
+        except InvalidRequestError:
+            db.session.rollback()
+            flash(f"Something went wrong!", "danger")
+        except IntegrityError:
+            db.session.rollback()
+            flash(f"Room already exists!.", "warning")
+        except DataError:
+            db.session.rollback()
+            flash(f"Invalid Entry", "warning")
+        except InterfaceError:
+            db.session.rollback()
+            flash(f"Error connecting to the database", "danger")
+        except DatabaseError:
+            db.session.rollback()
+            flash(f"Error connecting to the database", "danger")
+        except BuildError:
+            db.session.rollback()
+            flash(f"An error occured !", "danger")
+    elif request.method == "GET":
+        form.rent.data = room.rent 
+        form.deposit.data = room.deposit 
+        form.amenities.data= room.amenities
+        form.size.data = room.size
+        form.status.data = room.status 
+
+    return render_template("hostel_view.html",hostel=hostel,rooms=rooms,form=form,action_btn="Save Changes",action_type="Edit Room")
+
+# Edit hostel
+@adm.route("/hostels/<int:hostel_id>/edit", methods=("GET", "POST"), strict_slashes=False)
+def edit_hostel(hostel_id):
+    hostel =  Hostel.query.filter_by(id=hostel_id).first()
+    hostels = Hostel.query.order_by(Hostel.id.desc()).all()
+    form = AddHostel()
+    if form.validate_on_submit():
+        try:
+            hostel.name = form.name.data
+            hostel.location = form.location.data
+            hostel.management = form.management.data
+            hostel.rooms = form.rooms.data
+            hostel.caretaker = form.caretaker.data
+            hostel.contact = form.contact.data
+            hostel.description = form.description.data
+
+            db.session.commit()
+            flash("Hostel has been updated", "success")
+            return redirect(url_for("adm.hostels"))
+
+        except InvalidRequestError:
+            db.session.rollback()
+            flash(f"Something went wrong!", "danger")
+        except IntegrityError:
+            db.session.rollback()
+            flash(f"Hostel already exists!.", "warning")
+        except DataError:
+            db.session.rollback()
+            flash(f"Invalid Entry", "warning")
+        except InterfaceError:
+            db.session.rollback()
+            flash(f"Error connecting to the database", "danger")
+        except DatabaseError:
+            db.session.rollback()
+            flash(f"Error connecting to the database", "danger")
+        except BuildError:
+            db.session.rollback()
+            flash(f"An error occured !", "danger")
+    elif request.method == "GET":
+        form.name.data=hostel.name
+        form.location.data = hostel.location
+        form.management.data = hostel.management
+        form.rooms.data = hostel.rooms
+        form.caretaker.data = hostel.caretaker
+        form.contact.data = hostel.contact
+        form.description.data = hostel.description
+
+    return render_template("hostels.html",form=form,hostels=hostels,hostel=hostel,action_type="Edit Hostel",action_btn="Save Changes")
+
+
+                                # ALL DELETE ROUTES
 @adm.route("/delete/<int:user_id>", methods=("GET", "POST"), strict_slashes=False)
 @login_required
 # @admin_required

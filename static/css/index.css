@@ -1,4 +1,23 @@
-.landing-page{
+
+/*Booking form
+*/
+.booking{
+	text-align: left;
+}
+.booking p{
+	font-size: 16px;
+	font-family: sans-serif;
+	padding: 0.5rem;
+	font-style: italic;
+}
+.booking label{
+	font-size: 19px;
+	font-family: sans-serif;
+	color: grey;
+}
+
+/*Home page
+*/.landing-page{
 	height: 100vh;
 	color: #fff;
 }

@@ -30,19 +30,26 @@
     </div>
     <nav id="navbar">
         <div class="max-width">
-            <div class="logo"><a href="#">pata<span>Hao</span></a></div>
+            <div class="logo"><a href="{{url_for('index')}}">pata<span>Hao</span></a></div>
             <ul class="menu">
                 <li><a href="#" class="menu-btn">Home</a></li>
                 <li><a href="#" class="menu-btn">About</a></li>
                 <li><a href="#" class="menu-btn">Services</a></li>
                 <li><a href="#" class="menu-btn">Testimonials</a></li>
                 <li><a href="#" class="menu-btn">Contact</a></li>
-               <!--  {% if current_user.is_authenticated %}
+
+                {% if current_user.is_authenticated %}
+
+                {% if current_user.is_administrator()  %}
+                <li><a href="{{ url_for('adm.admindash') }}" class="menu-btn"> {{current_user.uname}} </a></li>
+                {% else %}
                 <li><a href="#" class="menu-btn"> {{current_user.uname}} </a></li>
-                {%else%}
-                <li><a href="#" class="menu-btn">Guest</a></li>
                 {% endif %}
- -->            </ul>
+                {%else%}
+                <li><a href="{{ url_for('auth.login') }}" class="menu-btn">Guest</a></li>
+                {% endif %}
+
+            </ul>
             <div class="menu-btn">
                 <i class="fas fa-bars"></i>
             </div>

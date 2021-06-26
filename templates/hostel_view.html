@@ -10,6 +10,7 @@
                 <th scope="col">Management</th>
                 <th scope="col">No.Rooms</th>
                 <th scope="col">Caretaker</th>
+                <th scope="col">Phone</th>
                 <th scope="col">Description</th>
             </tr>
         </thead>
@@ -20,13 +21,14 @@
                 <td>{{ hostel.management }}</td>
                 <td>{{ hostel.rooms }}</td>
                 <td>{{ hostel.caretaker }}</td>
+                <td>{{ hostel.contact }}</td>
                 <td>{{ hostel.description }}</td>
             </tr>
         </tbody>
     </table>
     <p>
         <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-            Add rooms
+            {{ action_type }}
         </a>
     </p>
     <div class="collapse" id="collapseExample">

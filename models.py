@@ -111,7 +111,8 @@ class Hostel(UserMixin, db.Model):
     location = db.Column(db.String(300), nullable=False)    
     management = db.Column(db.String(300), nullable=False) 
     rooms = db.Column(db.String(100), nullable=False)
-    caretaker = db.Column(db.String(300), nullable=False) 
+    caretaker = db.Column(db.String(300), nullable=False)
+    contact = db.Column(db.String(10), nullable=False)  
     description = db.Column(db.Text, nullable=False)
 
     def __repr__(self):

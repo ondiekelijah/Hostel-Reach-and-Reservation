@@ -4,7 +4,7 @@ from .app import create_app
 from .app import login_manager
 from .models import *
 from .decorators import admin_required, moderator_required, permission_required
-
+from sqlalchemy import or_,and_
 from flask import (
     Flask,
     render_template,
@@ -22,6 +22,9 @@ from flask_login import (
     logout_user,
     login_required,
 )
+import requests
+import unicodedata, re, itertools, sys
+
 
 app = create_app()
 
@@ -42,14 +45,68 @@ def load_user(user_id):
 def reroute():
     return redirect(url_for('auth.login'))
 
-@app.route('/main')
+@app.route('/main',methods=("GET", "POST"), strict_slashes=False)
 def index():
-    return render_template("index.html")
+    total = Room.query.order_by(Room.id.desc()).count()
+    booked = Room.query.filter_by(status='Booked').order_by(Room.id.desc()).count()
+    available = Room.query.filter_by(status='Vacant').order_by(Room.id.desc()).count()
 
-@app.route('/edit')
-def edit():
-    return render_template("edit_user.html")
+                
+    return render_template("index.html",total=total,booked=booked,available=available)
 
+# Search results route
+@app.route("/main/results", methods=("GET", "POST"), strict_slashes=False)
+def result():
+    keyword = request.form.get('sval')
+
+    if request.method == 'POST':
+        hostels = Hostel.query.filter(or_(Hostel.name.ilike(f'%{keyword}%'), Hostel.location.ilike(f'%{keyword}%'))).all()
+        available = Room.query.filter_by(status='Vacant').order_by(Room.id.desc()).all()
+        return render_template("action.html",hostels=hostels,Room=Room,available=available)
+        
+    else:
+        hostels = Hostel.query.order_by(Hostel.id.desc()).all()
+        available = Room.query.filter_by(status='Vacant').order_by(Room.id.desc()).all()
+
+        return render_template("action.html",hostels=hostels,Room=Room,available=available)
+
+    return render_template("action.html",hostels=hostels,Room=Room,available=available)
+
+
+
+@app.route("/main/booking/<int:hostel_id>/<int:room_id>/", methods=("GET", "POST"), strict_slashes=False)
+def booking(hostel_id,room_id):
+
+    hostel = Hostel.query.filter_by(id=hostel_id).first()
+    room = Room.query.filter_by(id=room_id).first()
+
+    return render_template("booking.html",hostel=hostel,room=room)
+
+
+
+# *** Authorization Request in Python ***|
+ 
+
+@app.route("/main/payment", methods=("GET", "POST"), strict_slashes=False)
+def payment():
+
+    url = "https://sandbox.safaricom.co.ke/oauth/v1/generate"
+    querystring = {"grant_type":"client_credentials"}
+    payload = ""
+    headers = {
+    "Authorization": "Basic SWZPREdqdkdYM0FjWkFTcTdSa1RWZ2FTSklNY001RGQ6WUp4ZVcxMTZaV0dGNFIzaA=="
+    }
+    response = requests.request("GET", url, data=payload, headers=headers, params=querystring)
+    print(response.text)
+
+    return response.text
+
+
+
+
+
+
+# Handle Errors
 @app.errorhandler(400)
 def bad_request(e):
     return render_template("errors/400.html", title="Bad Request"), 400
@@ -91,7 +148,6 @@ def service_temporarily_overloaded(e):
         render_template("errors/502.html", title="Service Temporarily Overloaded"),
         502,
     )
-
 
 @app.errorhandler(503)
 def service_unavailable(e):
