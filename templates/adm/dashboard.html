@@ -1,0 +1,68 @@
+{% extends "admin_base.html" %}
+{% block title%} {{ title }} {% endblock %}
+{% block content%}
+<div class="row container">
+    <div class="col-md-4">
+        <canvas id="myPieChart" width="100%" height="100%" class="p-4 rounded shadow-sm border-left"></canvas>
+        <script>
+        var barColors = [
+            "#00BCD4",
+            "#2196F3",
+            "#F44336"
+        ];
+
+        new Chart("myPieChart", {
+            type: "pie",
+            data: {
+                labels: {{labels|tojson}},
+                datasets: [{
+                    backgroundColor: barColors,
+                    data: {{data|tojson}}
+                }]
+            },
+
+
+            options: {
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Room Stats - Status',
+                    }
+                }
+            }
+
+        });
+        </script>
+    </div>
+    <div class="col-md-8">
+        <canvas id="myBarChart" width="100%" height="50" class="p-4 rounded shadow-sm border-left"></canvas>
+        <script>
+        var barColors = ["red", "#FF4081", "#009688", "orange"];
+
+        new Chart("myBarChart", {
+        type: "bar",
+        data: {
+            labels: {{labels2|tojson}},
+            datasets: [{
+                backgroundColor: barColors,
+                data: {{data2|tojson}}
+            }]
+        },
+            options: {
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+
+                    title: {
+                        display: true,
+                        text: 'Room Stats - Size',
+                    }
+                }
+            }
+
+        });
+        </script>
+    </div>
+</div>
+{% endblock%}

@@ -57,7 +57,36 @@ def global_hostels():
 @adm.route("/admin", methods=("GET", "POST"), strict_slashes=False)
 def admindash():
     hostels = Hostel.query.order_by(Hostel.id.desc()).all()
-    return render_template("dashboard.html",hostels=hostels)
+
+    booked = Room.query.filter_by(status='Booked').order_by(Room.id.desc()).count()
+    vacant = Room.query.filter_by(status='Vacant').order_by(Room.id.desc()).count()
+    occupied = Room.query.filter_by(status='Vacant').order_by(Room.id.desc()).count()
+
+    bs = Room.query.filter_by(size='Bedsitter').order_by(Room.id.desc()).count()
+    single = Room.query.filter_by(size='Single').order_by(Room.id.desc()).count()    
+    oneb = Room.query.filter_by(size='1 B').order_by(Room.id.desc()).count()
+    twob = Room.query.filter_by(size='2 B').order_by(Room.id.desc()).count()
+
+    re_de=Room.query.with_entities(Room.rent, Room.deposit).order_by(Room.id.desc())
+    re_sizes=Room.query.with_entities(Room.size).order_by(Room.id.desc())
+
+    # print(dict(re_de))
+    print(list(re_sizes))
+
+
+    data=list((booked,vacant,occupied))
+    labels=list(("booked","vacant","occupied"))
+
+    labels2=list(("Bedsitter","Single","1 B","2 B"))
+    data2 = list((bs,single,oneb,twob))
+
+    return render_template("adm/dashboard.html",
+        hostels=hostels,
+        data=data,
+        data2=data2,
+        labels=labels,
+        labels2=labels2
+        )
 
 # All Users route
 @adm.route("/users", methods=("GET", "POST"), strict_slashes=False)
@@ -101,12 +130,12 @@ def users():
             db.session.rollback()
             flash(f"An error occured !", "danger")
 
-    return render_template("users.html",form=form,users=users,all_hostels=all_hostels,action="Add User",action_btn="Save")
+    return render_template("adm/users.html",form=form,users=users,all_hostels=all_hostels,action="Add User",action_btn="Save")
 
 # Transactions route
 @adm.route("/transactions", methods=("GET", "POST"), strict_slashes=False)
 def transactions():
-    return render_template("transactions.html")
+    return render_template("adm/transactions.html")
 
 # Hostels route
 @adm.route("/hostels", methods=("GET", "POST"), strict_slashes=False)
@@ -156,7 +185,7 @@ def hostels():
             db.session.rollback()
             flash(f"An error occured !", "danger")
 
-    return render_template("hostels.html",form=form,hostels=hostels,action="Add Hostel",action_btn="Save")
+    return render_template("adm/hostels.html",form=form,hostels=hostels,action="Add Hostel",action_btn="Save")
 
 # View Hostels Route
 @adm.route("/hostel/<int:hostel_id>/view", methods=("GET", "POST"), strict_slashes=False)
@@ -203,13 +232,13 @@ def hostel_view(hostel_id):
             db.session.rollback()
             flash(f"An error occured !", "danger")
 
-    return render_template("hostel_view.html",hostel=hostel,rooms=rooms,form=form,action_btn="Save",action_type="Add Room")
+    return render_template("adm/hostel_view.html",hostel=hostel,rooms=rooms,form=form,action_btn="Save",action_type="Add Room")
 # Rooms route
 @adm.route("/rooms", methods=("GET", "POST"), strict_slashes=False)
 def rooms():
     rooms = Room.query.order_by(Room.id.desc()).all()
 
-    return render_template("rooms.html",rooms=rooms)
+    return render_template("adm/rooms.html",rooms=rooms)
 
                         # ALL EDIT ROUTES
 # Edit user route
@@ -251,7 +280,7 @@ def account(user_id):
         form.uname.data = user.uname
         form.email.data = user.email
 
-    return render_template("users.html",form=form,user=user,action="Edit User",action_btn="Save Changes")
+    return render_template("adm/users.html",form=form,user=user,action="Edit User",action_btn="Save Changes")
 
 
 # Edit rooms route
@@ -302,7 +331,7 @@ def edit_room(hostel_id,room_id):
         form.size.data = room.size
         form.status.data = room.status 
 
-    return render_template("hostel_view.html",hostel=hostel,rooms=rooms,form=form,action_btn="Save Changes",action_type="Edit Room")
+    return render_template("adm/hostel_view.html",hostel=hostel,rooms=rooms,form=form,action_btn="Save Changes",action_type="Edit Room")
 
 # Edit hostel
 @adm.route("/hostels/<int:hostel_id>/edit", methods=("GET", "POST"), strict_slashes=False)
@@ -351,7 +380,7 @@ def edit_hostel(hostel_id):
         form.contact.data = hostel.contact
         form.description.data = hostel.description
 
-    return render_template("hostels.html",form=form,hostels=hostels,hostel=hostel,action_type="Edit Hostel",action_btn="Save Changes")
+    return render_template("adm/hostels.html",form=form,hostels=hostels,hostel=hostel,action_type="Edit Hostel",action_btn="Save Changes")
 
 
                                 # ALL DELETE ROUTES

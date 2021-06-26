@@ -41,53 +41,49 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
-@app.route("/", methods=("GET", "POST"), strict_slashes=False)
-def reroute():
-    return redirect(url_for('auth.login'))
-
-@app.route('/main',methods=("GET", "POST"), strict_slashes=False)
+@app.route('/',methods=("GET", "POST"), strict_slashes=False)
 def index():
     total = Room.query.order_by(Room.id.desc()).count()
     booked = Room.query.filter_by(status='Booked').order_by(Room.id.desc()).count()
     available = Room.query.filter_by(status='Vacant').order_by(Room.id.desc()).count()
 
                 
-    return render_template("index.html",total=total,booked=booked,available=available)
+    return render_template("main/index.html",total=total,booked=booked,available=available)
 
 # Search results route
-@app.route("/main/results", methods=("GET", "POST"), strict_slashes=False)
+@app.route("/results", methods=("GET", "POST"), strict_slashes=False)
 def result():
     keyword = request.form.get('sval')
 
     if request.method == 'POST':
         hostels = Hostel.query.filter(or_(Hostel.name.ilike(f'%{keyword}%'), Hostel.location.ilike(f'%{keyword}%'))).all()
         available = Room.query.filter_by(status='Vacant').order_by(Room.id.desc()).all()
-        return render_template("action.html",hostels=hostels,Room=Room,available=available)
-        
+        return render_template("main/action.html",hostels=hostels,Room=Room,available=available)
+
     else:
         hostels = Hostel.query.order_by(Hostel.id.desc()).all()
         available = Room.query.filter_by(status='Vacant').order_by(Room.id.desc()).all()
 
-        return render_template("action.html",hostels=hostels,Room=Room,available=available)
+        return render_template("main/action.html",hostels=hostels,Room=Room,available=available)
 
-    return render_template("action.html",hostels=hostels,Room=Room,available=available)
+    return render_template("main/action.html",hostels=hostels,Room=Room,available=available)
 
 
 
-@app.route("/main/booking/<int:hostel_id>/<int:room_id>/", methods=("GET", "POST"), strict_slashes=False)
+@app.route("/booking/<int:hostel_id>/<int:room_id>/", methods=("GET", "POST"), strict_slashes=False)
 def booking(hostel_id,room_id):
 
     hostel = Hostel.query.filter_by(id=hostel_id).first()
     room = Room.query.filter_by(id=room_id).first()
 
-    return render_template("booking.html",hostel=hostel,room=room)
+    return render_template("main/booking.html",hostel=hostel,room=room)
 
 
 
 # *** Authorization Request in Python ***|
  
 
-@app.route("/main/payment", methods=("GET", "POST"), strict_slashes=False)
+@app.route("/payment", methods=("GET", "POST"), strict_slashes=False)
 def payment():
 
     url = "https://sandbox.safaricom.co.ke/oauth/v1/generate"

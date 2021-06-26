@@ -9,8 +9,8 @@
                     <h1 class="hero-text">Where do you want to live ?</h1>
                     <h3>Find the house you desire</h3>
                     <form method="POST" action="{{ url_for('result')}}">
-                        <div class="w3-container search-box-wrapper" style="position:relative">
-                            <input type="text" class="w3-input w3-border search-box" name="sval" id="sval"onfocus="this.value=''" placeholder="Location,Estate,Name ...">
+                        <div class="search-box-wrapper" style="position:relative">
+                            <input type="text" class="w3-input w3-border search-box" name="sval" id="sval" onfocus="this.value=''" placeholder="Location,Estate,Name ..." required>
                             <button class="w3-btn w3-blue w3-border search-button" type="submit">Search</button>
                         </div>
                     </form>
@@ -56,7 +56,7 @@
     <!--Featured suites-->
     <div class="container">
         <div class="row featured">
-             <div class="col-md-6 text-center order-md-last">
+            <div class="col-md-6 text-center order-md-last">
                 <img src="/static/images/featured.svg" class="inline-photo">
             </div>
             <div class="col-md-6 order-md-first">
@@ -68,9 +68,9 @@
                     <a href="{{ url_for('result')}}" class="explore-button">Explore <span><i class="bi bi-chevron-right"></i></span> </a>
                 </div>
             </div>
-           
         </div>
         <!--About us-->
+        <a id="about"></a>
         <div class="row about-us">
             <div class="col-md-6 text-center">
                 <img src="/static/images/about.svg" class="inline-photo">
@@ -80,6 +80,22 @@
                 <p class="text">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                 </p>
+            </div>
+        </div>
+        <div class="row container partners">
+            <div class="col-md-12">
+                <h2 class="titles text-center"><span class="text-primary">Our</span> Clients </h2>
+                <div class="w3-row text-center partner-img">
+                    <div class="w3-third ">
+                        <img src="/static/images/partners/alamo.png" class="img-fluid">
+                    </div>
+                    <div class="w3-third partner-img">
+                        <img src="/static/images/partners/cloverdale.png" class="img-fluid">
+                    </div>
+                    <div class="w3-third">
+                        <img src="/static/images/partners/greentech.png" class="img-fluid">
+                    </div>
+                </div>
             </div>
         </div>
     </div>

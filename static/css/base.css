@@ -25,7 +25,11 @@ html{
 ::-webkit-scrollbar-thumb:hover {
     background: #555;
 }
-
+body{
+    background-image: url(/static/images/overlay.png);
+    background-position: center;
+    background-size: cover;
+}
 /* all similar content styling codes */
 main{
     padding: 100px 0;
@@ -94,9 +98,7 @@ main{
     cursor: pointer;
     display: none;
 }
-.content-wrap{
-    background-image: url(/static/images/wrapbg.jpg);
-}
+
 /*Footer
 */
 

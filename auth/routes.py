@@ -84,7 +84,7 @@ def register():
             db.session.rollback()
             flash(f"An error occured !", "danger")
         return render_template("auth.html",form=form)  
-    return render_template("auth.html",form=form)
+    return render_template("auth/auth.html",form=form)
 
 
 # lOGIN route
@@ -101,7 +101,7 @@ def login():
                 flash("Invalid Username or password!", "danger")
         except:
             flash("An Unknown error occured", "danger")
-    return render_template("auth.html",form=form)
+    return render_template("auth/auth.html",form=form)
 
 
 @auth.route("/logout")

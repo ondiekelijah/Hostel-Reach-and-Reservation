@@ -50,7 +50,6 @@ form h4{
   height: 45px;
   padding: 15px;
   border-radius: 30px;
-  font-family: 'Raleway', sans-serif;
   outline: none;
   color: black;
 }
@@ -64,9 +63,11 @@ form h4{
 .search-button{
 	position:absolute;
 	top:3px;
-	right:16px;
+	right:1px;
 	border-radius: 30px;
 	height: 40px;
+	outline: none;
+	border: none;
 }
 .updates-wrapper{
 	padding-top:3rem;
@@ -124,13 +125,19 @@ svg{
 }
 
 .inline-photo{
-	width: 50%;
-	height: 60%;
+	width: 70%;
+	height: 70%;
 }
 .about-us{
-	padding: 4rem 0 4rem 0;
-	height: 100vh;
+	padding: 4rem 0 0 0;
+	height: 90vh;
 	margin-top: 6rem;
+}
+.partners{
+	padding: 0rem 0 6rem 0;
+}
+.partner-img div{
+	margin-top: 6rem 0 4rem 0;
 }
 
 @media screen and (max-width: 600px) {
@@ -186,7 +193,13 @@ svg{
 }
 .about-us{
 	padding: 2rem 0 0 0;
-	height: 100vh;
+	height: fit-content;
+}
+.partners{
+	padding: 2rem 0 2rem 0;
+}
+.partner-img{
+	margin-top: 0 0 0 0;
 }
 /*form{
 	padding:0;
