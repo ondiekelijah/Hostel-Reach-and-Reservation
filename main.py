@@ -23,6 +23,8 @@ from flask_login import (
     login_required,
 )
 import requests
+import json
+from requests.auth import HTTPBasicAuth
 import unicodedata, re, itertools, sys
 
 
@@ -75,30 +77,6 @@ def booking(hostel_id,room_id):
     room = Room.query.filter_by(id=room_id).first()
 
     return render_template("main/booking.html",hostel=hostel,room=room)
-
-
-
-# *** Authorization Request in Python ***|
- 
-
-@app.route("/payment", methods=("GET", "POST"), strict_slashes=False)
-def payment():
-
-    url = "https://sandbox.safaricom.co.ke/oauth/v1/generate"
-    querystring = {"grant_type":"client_credentials"}
-    payload = ""
-    headers = {
-    "Authorization": "Basic SWZPREdqdkdYM0FjWkFTcTdSa1RWZ2FTSklNY001RGQ6WUp4ZVcxMTZaV0dGNFIzaA=="
-    }
-    response = requests.request("GET", url, data=payload, headers=headers, params=querystring)
-    print(response.text)
-
-    return response.text
-
-
-
-
-
 
 # Handle Errors
 @app.errorhandler(400)

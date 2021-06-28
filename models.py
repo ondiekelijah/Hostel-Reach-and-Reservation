@@ -127,7 +127,8 @@ class Room(UserMixin, db.Model):
     amenities = db.Column(db.String(300), nullable=False)
     size= db.Column(db.String(300), nullable=False)
     status = db.Column(db.String(300), nullable=False)
-    hostel_id = db.Column(db.Integer,nullable = False)
+    hostel_id = db.Column(db.Integer, db.ForeignKey("hostel.id"), nullable=False)
+    hostel = db.relationship("Hostel", backref=db.backref("hostel"), lazy=True)
 
 
     def __repr__(self):

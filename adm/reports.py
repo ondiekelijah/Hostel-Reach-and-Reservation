@@ -109,9 +109,6 @@ def rooms_report():
     pdf.ln(1)
         
     th = pdf.font_size
-
-    hostels = Hostel.query.order_by(Hostel.id.asc()).all()
-
     
     for row in rooms:
         pdf.cell(col_width, th, str(row.id), border=1)
@@ -120,7 +117,7 @@ def rooms_report():
         pdf.cell(col_width, th, row.amenities, border=1)
         pdf.cell(col_width, th, row.size, border=1)
         pdf.cell(col_width, th, row.status, border=1)
-        # pdf.cell(col_width, th, i.name, border=1)
+        pdf.cell(col_width, th, row.hostel.name, border=1)
 
 
         pdf.ln(th)
