@@ -31,10 +31,8 @@ app = create_app()
 
 # @app.context_processor
 # def my_global_objects():
-#     global_hostels = Hostel.query.with_entities(Hostel.name, Hostel.id)
-#     jibu = dict(global_hostels)
-#     print(jibu)
-#     return jibu
+#     users = User.query.count()
+#     return (users,)
 
 @login_manager.user_loader
 def load_user(user_id):

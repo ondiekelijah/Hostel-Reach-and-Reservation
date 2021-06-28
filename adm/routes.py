@@ -60,7 +60,7 @@ def admindash():
 
     booked = Room.query.filter_by(status='Booked').order_by(Room.id.desc()).count()
     vacant = Room.query.filter_by(status='Vacant').order_by(Room.id.desc()).count()
-    occupied = Room.query.filter_by(status='Vacant').order_by(Room.id.desc()).count()
+    occupied = Room.query.filter_by(status='Occupied').order_by(Room.id.desc()).count()
 
     bs = Room.query.filter_by(size='Bedsitter').order_by(Room.id.desc()).count()
     single = Room.query.filter_by(size='Single').order_by(Room.id.desc()).count()    
@@ -70,22 +70,26 @@ def admindash():
     re_de=Room.query.with_entities(Room.rent, Room.deposit).order_by(Room.id.desc())
     re_sizes=Room.query.with_entities(Room.size).order_by(Room.id.desc())
 
-    # print(dict(re_de))
-    print(list(re_sizes))
-
-
     data=list((booked,vacant,occupied))
     labels=list(("booked","vacant","occupied"))
 
     labels2=list(("Bedsitter","Single","1 B","2 B"))
     data2 = list((bs,single,oneb,twob))
 
+    user_count = User.query.order_by(User.id.desc()).count()
+    hostel_count = Hostel.query.order_by(Hostel.id.desc()).count()
+    room_count = Room.query.order_by(Room.id.desc()).count()
+
     return render_template("adm/dashboard.html",
         hostels=hostels,
         data=data,
         data2=data2,
         labels=labels,
-        labels2=labels2
+        labels2=labels2,
+        user_count=user_count,
+        hostel_count=hostel_count,
+        room_count=room_count
+
         )
 
 # All Users route

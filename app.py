@@ -68,12 +68,16 @@ def create_app():
 
     from .auth.routes import auth
     from .adm.routes import adm
+    from .adm.reports import reports
+
 
 
 
 
     app.register_blueprint(auth)
     app.register_blueprint(adm)
+    app.register_blueprint(reports)
+
 
 
 

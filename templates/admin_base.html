@@ -14,7 +14,6 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 </head>
 
 <body>
@@ -58,14 +57,14 @@
                             <a href="#" class="list-group-item list-group-item-action border-0 pl-5">Purchase Orders</a>
                         </div>
                     </div>
-                    <button class="list-group-item list-group-item-action border-0 d-flex justify-content-between align-items-center" data-toggle="collapse" data-target="#purchase-collapse">
+                    <button class="list-group-item list-group-item-action border-0 d-flex justify-content-between align-items-center" data-toggle="collapse" data-target="#purchase-collapse2">
                         <div>
                             <span class="bi bi-house-fill"></span>
                             <span class="ml-2">Rooms</span>
                         </div>
                         <span class="bi bi-chevron-down small"></span>
                     </button>
-                    <div class="collapse" id="purchase-collapse" data-parent="#sidebar">
+                    <div class="collapse" id="purchase-collapse2" data-parent="#sidebar">
                         <div class="list-group">
                             <a href="#" class="list-group-item list-group-item-action border-0 pl-5">Sellers</a>
                             <a href="#" class="list-group-item list-group-item-action border-0 pl-5">Purchase Orders</a>
@@ -115,37 +114,42 @@
                         {% endwith %}
                     </div>
                     <section class="row">
-                        <div class="col-md-6 col-lg-3">
+                        <div class="col-md-3 col-lg-3">
                             <!-- card -->
                             <article class="p-4 rounded shadow-sm border-left
                mb-0">
-                                <a href="{{url_for('adm.users')}}" class="d-flex align-items-center">
+                                <a href="{{url_for('adm.users')}}" class="d-flex align-items-center" style="text-decoration: none;">
                                     <span class="bi bi-person h5"></span>
                                     <h5 class="ml-2">Users</h5>
+                                    <h2 class="ml-auto text-danger">{{ user_count }}</h2>
                                 </a>
                             </article>
                         </div>
-                        <div class="col-md-6 col-lg-3">
+                        <div class="col-md-3 col-lg-3">
                             <article class="p-4 rounded shadow-sm border-left mb-0">
-                                <a href="{{url_for('adm.transactions')}}" class="d-flex align-items-center">
+                                <a href="{{url_for('adm.transactions')}}" class="d-flex align-items-center" style="text-decoration: none;">
                                     <span class="bi bi-cash-stack h5"></span>
                                     <h5 class="ml-2">Transactions</h5>
+                                                                        <h2 class="ml-auto text-danger">0</h2>
+
                                 </a>
                             </article>
                         </div>
-                        <div class="col-md-6 col-lg-3">
+                        <div class="col-md-3 col-lg-3">
                             <article class="p-4 rounded shadow-sm border-left mb-0">
-                                <a href="{{url_for('adm.hostels')}}" class="d-flex align-items-center">
+                                <a href="{{url_for('adm.hostels')}}" class="d-flex align-items-center" style="text-decoration: none;">
                                     <span class="bi bi-house h5"></span>
                                     <h5 class="ml-2">Hostels</h5>
+                                    <h2 class="ml-auto text-danger">{{ hostel_count }}</h2>
                                 </a>
                             </article>
                         </div>
-                        <div class="col-md-6 col-lg-3">
+                        <div class="col-md-3 col-lg-3">
                             <article class="p-4 rounded shadow-sm border-left mb-0">
-                                <a href="{{url_for('adm.rooms')}}" class="d-flex align-items-center">
+                                <a href="{{url_for('adm.rooms')}}" class="d-flex align-items-center" style="text-decoration: none;">
                                     <span class="bi bi-house-fill h5"></span>
                                     <h5 class="ml-2">Rooms</h5>
+                                    <h2 class="ml-auto text-danger">{{ room_count }}</h2>
                                 </a>
                             </article>
                         </div>
@@ -160,7 +164,6 @@
     </div>
     <script src="{{url_for('static',filename='js/admin.js')}}"></script>
     <script src="{{url_for('static',filename='js/charts.js')}}"></script>
-
 </body>
 
 </html>

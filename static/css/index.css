@@ -1,8 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow&display=swap');
 
 /*Booking form
 */
 .booking{
 	text-align: left;
+	font-family: 'Barlow', sans-serif;
 }
 .booking p{
 	font-size: 16px;

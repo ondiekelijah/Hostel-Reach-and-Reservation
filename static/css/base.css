@@ -26,7 +26,6 @@ html{
     background: #555;
 }
 body{
-    background-image: url(/static/images/overlay.png);
     background-position: center;
     background-size: cover;
 }
