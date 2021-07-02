@@ -119,10 +119,8 @@ def rooms_report():
         pdf.cell(col_width, th, row.status, border=1)
         pdf.cell(col_width, th, row.hostel.name, border=1)
 
-
         pdf.ln(th)
 
-        
     pdf.ln(10)
         
     pdf.set_font('Times','',10.0) 
