@@ -69,7 +69,7 @@ def create_app():
     from .auth.routes import auth
     from .adm.routes import adm
     from .adm.reports import reports
-    # from .mpesa.pay import mpesa
+    from .mpesa.pay import mpesa
 
 
 
@@ -78,7 +78,7 @@ def create_app():
     app.register_blueprint(auth)
     app.register_blueprint(adm)
     app.register_blueprint(reports)
-    # app.register_blueprint(mpesa)
+    app.register_blueprint(mpesa)
 
 
 
