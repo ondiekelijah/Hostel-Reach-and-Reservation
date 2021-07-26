@@ -395,6 +395,13 @@ h1, h2, h3, h4, h5, h6 {
   outline: none;
   border: none;
 }
+@media (max-width: 991px) {
+.search-box-wrapper{
+  width: 100%;
+  margin: auto;
+}
+}
+
 @media (min-width: 1024px) {
   #hero {
     background-attachment: fixed;
