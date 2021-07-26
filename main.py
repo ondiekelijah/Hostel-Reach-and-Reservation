@@ -30,12 +30,6 @@ import unicodedata, re, itertools, sys
 
 app = create_app()
 
-
-# @app.context_processor
-# def my_global_objects():
-#     users = User.query.count()
-#     return (users,)
-
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -47,8 +41,20 @@ def index():
     booked = Room.query.filter_by(status='Booked').order_by(Room.id.desc()).count()
     available = Room.query.filter_by(status='Vacant').order_by(Room.id.desc()).count()
 
+
+    hostels = Hostel.query.order_by(Hostel.id.desc()).all()
+    available_rooms = Room.query.filter_by(status='Vacant').order_by(Room.id.desc()).all()
+
                 
-    return render_template("main/index.html",total=total,booked=booked,available=available)
+    return render_template("main/index.html",
+        Room=Room,
+        total=total,
+        booked=booked,
+        available=available,
+        hostels=hostels,
+        title="PataHao | Home",
+        available_rooms=available_rooms
+        )
 
 # Search results route
 @app.route("/results", methods=("GET", "POST"), strict_slashes=False)
@@ -64,9 +70,20 @@ def result():
         hostels = Hostel.query.order_by(Hostel.id.desc()).all()
         available = Room.query.filter_by(status='Vacant').order_by(Room.id.desc()).all()
 
-        return render_template("main/action.html",hostels=hostels,Room=Room,available=available)
+        return render_template("main/action.html",
+            hostels=hostels,
+            Room=Room,
+            available=available,
+             title="PataHao | Home",
+            keyword=keyword)
 
-    return render_template("main/action.html",hostels=hostels,Room=Room,available=available)
+    return render_template("main/action.html",
+        hostels=hostels,
+        Room=Room,
+        available=available,
+        keyword=keyword,
+        title="PataHao | Results",
+        )
 
 
 
@@ -76,7 +93,7 @@ def booking(hostel_id,room_id):
     hostel = Hostel.query.filter_by(id=hostel_id).first()
     room = Room.query.filter_by(id=room_id).first()
 
-    return render_template("main/booking.html",hostel=hostel,room=room)
+    return render_template("main/booking.html",hostel=hostel,room=room, title="PataHao | Book",)
 
 # Handle Errors
 @app.errorhandler(400)

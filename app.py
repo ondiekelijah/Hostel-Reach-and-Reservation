@@ -1,4 +1,3 @@
-#Comment lines 1-75 when inserting user roles and when creating a database using mirate
 import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
@@ -17,7 +16,6 @@ from flask_login import (
     login_required,
 )
 from flask_msearch import Search
-# from .config import Config
 login_manager = LoginManager()
 login_manager.session_protection = "strong"
 login_manager.login_view = "auth.login"
@@ -68,57 +66,10 @@ def create_app():
     from adm.reports import reports
     from mpesa.pay import mpesa
 
-
-
-
-
     app.register_blueprint(auth)
     app.register_blueprint(adm)
     app.register_blueprint(reports)
     app.register_blueprint(mpesa)
 
-
-
-
     return app
 
-
-# Use this to insert db roles
-# Uncomment lines 80- 105 when inserting roles,comment the above
-# from flask import Flask
-# from flask_sqlalchemy import SQLAlchemy
-# from flask_bcrypt import Bcrypt
-# from flask_login import LoginManager
-
-# login_manager = LoginManager()
-# login_manager.session_protection = "strong"
-# login_manager.login_view = "auth.login"
-# login_manager.login_message_cartegory = "info"
-# db =SQLAlchemy()
-# bcrypt = Bcrypt()
-
-
-# def create_app():
-#     app = Flask(__name__)
-#     app.secret_key = '67eadccda3bc198fangelus'
-#     app.config['SQLALCHEMY_DATABASE_URI']='mysql+mysqlconnector://elie:dev123@localhost/blog'
-#     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-#     login_manager.init_app(app)
-
-#     bcrypt.init_app(app)
-#     db.init_app(app)
-
-#     return app
-
-# Inserting User roles
-# Use these lines to avaoid "out of context" errors
-# from app import create_app
-# app = create_app()
-# app.app_context().push()
-# from models import Role
-# from app import db
-# Role.insert_roles()
-# Role.query.all()
-
-# [<Role 'User'>, <Role 'Moderator'>, <Role 'Administrator'>]

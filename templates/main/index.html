@@ -1,103 +1,131 @@
 {% extends "base.html" %}
 {% block title%} {{ title }} {% endblock %}
 {% block content%}
-<div class="main-page">
-    <div class="landing-page">
-        <div class="row home-wrapper">
-            <div class="col-md-12">
-                <div class="hero">
-                    <h1 class="hero-text">Where do you want to live ?</h1>
-                    <h3>Find the house you desire</h3>
+<!-- ======= Hero Section ======= -->
+<section id="hero">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto pt-5 pt-lg-0 order-2 text-center" data-aos="fade-up">
+                <div>
+                    <h1>We Help you find the house you desire</h1>
+                    <h2>We are Trusted and Reliable</h2>
                     <form method="POST" action="{{ url_for('result')}}">
                         <div class="search-box-wrapper" style="position:relative">
-                            <input type="text" class="w3-input w3-border search-box" name="sval" id="sval" onfocus="this.value=''" placeholder="Location,Estate,Name ..." required>
+                            <input type="text" class="w3-input w3-border search-box" name="sval" id="sval" onfocus="this.value=''" placeholder="Search by location,estate,name" required>
                             <button class="w3-btn w3-blue w3-border search-button" type="submit">Search</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
-        <!--         Stats
- -->
-        <div class="updates-wrapper">
-            <div class="row updates">
-                <div class="col-sm-4">
-                    <div class="stats-card">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-house-fill" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293l6-6zm5-.793V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z" />
-                            <path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z" />
-                        </svg>
-                        <div class="value" akhi="{{ total }}">0</div>
-                        <p class="stats-card-text">Total</p>
-                    </div>
+    </div>
+</section><!-- End Hero -->
+<main id="main">
+    <!-- ======= Cta Section ======= -->
+    <section id="stats" class="stats">
+        <div class="row" data-aos="zoom-in">
+            <div class="col-sm-4">
+                <div class="stats-card">
+                    <div class="value">{{ total }}</div>
+                    <p class="stats-card-text">Total</p>
                 </div>
-                <div class="col-sm-4">
-                    <div class="stats-card">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
-                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
-                        </svg>
-                        <div class="value" akhi="{{ booked }}">0</div>
-                        <p class="stats-card-text">Booked</p>
-                    </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="stats-card">
+                    <div class="value">{{ booked }}</div>
+                    <p class="stats-card-text">Booked</p>
                 </div>
-                <div class="col-sm-4">
-                    <div class="stats-card">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-bell" viewBox="0 0 16 16">
-                            <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zM8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z" />
-                        </svg>
-                        <div class="value" akhi="{{ available }}">0</div>
-                        <p class="stats-card-text">Available</p>
-                    </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="stats-card">
+                    <div class="value">{{ available }}</div>
+                    <p class="stats-card-text">Available</p>
                 </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Cta Section -->
+    <a id="available"></a>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="table-responsive-lg container">
+                <div class="section-title">
+                    <h3>Available <span>Rooms</span></h3>
+                </div>
+                <table class="table table-borderless table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Hostel</th>
+                            <th scope="col">Location</th>
+                            <th scope="col">Management</th>
+                            <th scope="col">Rooms available</th>
+                            <th scope="col">Caretaker</th>
+                            <th scope="col">Phone</th>
+                            <th scope="col">More</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for hostel in hostels %}
+                        <tr>
+                            <th scope="row">{{ hostel.name }}</th>
+                            <td>{{ hostel.location }}</td>
+                            <td>{{ hostel.management }}</td>
+                            <td>{{Room.query.filter_by(status='Vacant',hostel_id=hostel.id).order_by(Room.id.desc()).count() }}</td>
+                            <td>{{ hostel.caretaker }}</td>
+                            <td>{{ hostel.contact }}</td>
+                            <td>{{ hostel.description }}</td>
+                            <td>
+                                <a class="btn btn-primary btn-sm" data-bs-toggle="collapse" href="#book-{{hostel.id}}" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                    <i class="bi bi-plus m-1"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="8">
+                                <div class="collapse" id="book-{{hostel.id}}">
+                                    <div class="section-title">
+                                        <h3><span> {{ hostel.name }} </span></h3>
+                                    </div>
+
+                                    <table class="table table-borderless">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th></th>
+                                                <th scope="col">Rent</th>
+                                                <th scope="col">Deposit</th>
+                                                <th scope="col">Amenities</th>
+                                                <th scope="col">Size</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for room in available_rooms %}
+                                            {% if room.hostel_id == hostel.id %}
+                                            <tr>
+                                                <th></th>
+                                                <th></th>
+                                                <th scope="row">{{ room.rent}} </th>
+                                                <td> {{ room.deposit}} </td>
+                                                <td> {{ room.amenities }} </td>
+                                                <td> {{ room.size }} </td>
+                                                <td>
+                                                    <button type="button" class="btn btn-primary btn-sm">
+                                                        <a href="{{ url_for('booking',room_id=room.id,hostel_id=hostel.id) }}" class="text-white"> Book<i class="bi bi-lock-fill m-1"></i> </a>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            {% endif %}
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
-    <!-- End of landing page-->
-    <!--Featured suites-->
-    <div class="container">
-        <div class="row featured">
-            <div class="col-md-6 text-center order-md-last">
-                <img src="/static/images/featured.svg" class="inline-photo">
-            </div>
-            <div class="col-md-6 order-md-first">
-                <h2 class="titles">Featured <span class="text-primary">Suites</span> </h2>
-                <p class="text">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                </p>
-                <div class="cta">
-                    <a href="{{ url_for('result')}}" class="explore-button">Explore <span><i class="bi bi-chevron-right"></i></span> </a>
-                </div>
-            </div>
-        </div>
-        <!--About us-->
-        <a id="about"></a>
-        <div class="row about-us">
-            <div class="col-md-6 text-center">
-                <img src="/static/images/about.svg" class="inline-photo">
-            </div>
-            <div class="col-md-6">
-                <h2 class="titles">About <span class="text-primary">Us</span> </h2>
-                <p class="text">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                </p>
-            </div>
-        </div>
-        <div class="row container partners">
-            <div class="col-md-12">
-                <h2 class="titles text-center"><span class="text-primary">Our</span> Clients </h2>
-                <div class="w3-row text-center partner-img">
-                    <div class="w3-third ">
-                        <img src="/static/images/partners/alamo.png" class="img-fluid">
-                    </div>
-                    <div class="w3-third partner-img">
-                        <img src="/static/images/partners/cloverdale.png" class="img-fluid">
-                    </div>
-                    <div class="w3-third">
-                        <img src="/static/images/partners/greentech.png" class="img-fluid">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+</main>
 {% endblock%}

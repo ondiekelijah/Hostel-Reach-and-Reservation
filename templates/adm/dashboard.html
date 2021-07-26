@@ -2,7 +2,7 @@
 {% block title%} {{ title }} {% endblock %}
 {% block content%}
 <div class="row container">
-        <div class="col-md-12">
+    <div class="col-md-12">
         <h3 class="lead text-muted">Summary Stats</h3>
     </div>
     <div class="col-md-4">
@@ -17,10 +17,10 @@
         new Chart("myPieChart", {
             type: "pie",
             data: {
-                labels: {{labels|tojson}},
+                labels: {{ labels | tojson }},
                 datasets: [{
                     backgroundColor: barColors,
-                    data: {{data|tojson}}
+                    data: {{ data | tojson }}
                 }]
             },
 
@@ -34,9 +34,9 @@
                             top: 10,
                             bottom: 30
                         },
-                        font:{
-                            weight:'bold',
-                            size:15,
+                        font: {
+                            weight: 'bold',
+                            size: 15,
                         },
                     }
                 }
@@ -52,14 +52,14 @@
         var barColors = ["red", "#FF4081", "#009688", "orange"];
 
         new Chart("myBarChart", {
-        type: "bar",
-        data: {
-            labels: {{labels2|tojson}},
-            datasets: [{
-                backgroundColor: barColors,
-                data: {{data2|tojson}}
-            }]
-        },
+            type: "bar",
+            data: {
+                labels: {{ labels2 | tojson }},
+                datasets: [{
+                    backgroundColor: barColors,
+                    data: {{ data2 | tojson }}
+                }]
+            },
             options: {
 
                 plugins: {
@@ -74,9 +74,9 @@
                             top: 10,
                             bottom: 30
                         },
-                        font:{
-                            weight:'bold',
-                            size:15,
+                        font: {
+                            weight: 'bold',
+                            size: 15,
                         },
                     }
                 }
@@ -84,19 +84,6 @@
 
         });
         </script>
-    </div>
-    <div class="col-md-12">
-
-        <h3 class="lead text-muted">Reports</h3>
-    <a class="btn btn-primary btn-sm" href="{{url_for('reports.users_report')}}" class="text-white">Users <i class="bi bi-download m-1"></i></a> 
-
-       <a class="btn btn-primary btn-sm" href="{{url_for('reports.rooms_report')}}" class="text-white">Rooms <i class="bi bi-download m-1"></i></a> 
-
-   <a class="btn btn-primary btn-sm" href="{{url_for('reports.hostel_report')}}" class="text-white">Hostels<i class="bi bi-download m-1"></i></a> 
-
-   <a class="btn btn-primary btn-sm" href="{{url_for('reports.users_report')}}" class="text-white">Transactions<i class="bi bi-download m-1"></i></a> 
-
-
     </div>
 </div>
 {% endblock%}

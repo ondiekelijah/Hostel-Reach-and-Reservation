@@ -1,11 +1,14 @@
 {% extends "base.html" %}
 {% block title%} {{ title }} {% endblock %}
 {% block content%}
-<div class="container">
+<main id="main">
     <div class="row">
-        <div class="col-md-12 col-lg-12 px-0 h-100 bg-white shadow">
-            <div class="table-responsive-lg">
-                <table class="table table-borderless">
+        <div class="col-md-12">
+            <div class="table-responsive-lg container">
+                <div class="section-title">
+                    <h3>Available <span>Rooms</span></h3>
+                </div>
+                <table class="table table-borderless table-hover">
                     <thead>
                         <tr>
                             <th scope="col">Name</th>
@@ -14,29 +17,33 @@
                             <th scope="col">Rooms available</th>
                             <th scope="col">Caretaker</th>
                             <th scope="col">Phone</th>
-                            <th scope="col">Description</th>
+                            <th scope="col">More</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for hostel in hostels %}
                         <tr>
                             <th scope="row">{{ hostel.name }}</th>
-                            <td style="padding: 0px;">{{ hostel.location }}</td>
-                            <td style="padding: 0px;">{{ hostel.management }}</td>
-                            <td style="padding: 0px;">{{Room.query.filter_by(status='Vacant',hostel_id=hostel.id).order_by(Room.id.desc()).count() }}</td>
-                            <td style="padding: 0px;">{{ hostel.caretaker }}</td>
-                            <td style="padding: 0px;">{{ hostel.contact }}</td>
-                            <td style="padding: 0px;">{{ hostel.description }}</td>
-                            <td style="padding: 0px;">
-                                <a class="btn btn-primary" data-toggle="collapse" href="#book-{{hostel.id}}" role="button" aria-expanded="false" aria-controls="collapseExample">
+                            <td>{{ hostel.location }}</td>
+                            <td>{{ hostel.management }}</td>
+                            <td>{{Room.query.filter_by(status='Vacant',hostel_id=hostel.id).order_by(Room.id.desc()).count() }}</td>
+                            <td>{{ hostel.caretaker }}</td>
+                            <td>{{ hostel.contact }}</td>
+                            <td>{{ hostel.description }}</td>
+                            <td>
+                                <a class="btn btn-primary btn-sm" data-bs-toggle="collapse" href="#book-{{hostel.id}}" role="button" aria-expanded="false" aria-controls="collapseExample">
                                     <i class="bi bi-plus m-1"></i>
                                 </a>
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="6">
+                            <td colspan="8">
                                 <div class="collapse" id="book-{{hostel.id}}">
-                                    <table class="table table-hover table-success">
+                                    <div class="section-title">
+                                        <h3><span> {{ hostel.name }} </span></h3>
+                                    </div>
+
+                                    <table class="table table-borderless">
                                         <thead>
                                             <tr>
                                                 <th></th>
@@ -58,7 +65,7 @@
                                                 <td> {{ room.amenities }} </td>
                                                 <td> {{ room.size }} </td>
                                                 <td>
-                                                    <button type="button" class="btn btn-primary">
+                                                    <button type="button" class="btn btn-primary btn-sm">
                                                         <a href="{{ url_for('booking',room_id=room.id,hostel_id=hostel.id) }}" class="text-white"> Book<i class="bi bi-lock-fill m-1"></i> </a>
                                                     </button>
                                                 </td>
@@ -76,7 +83,5 @@
             </div>
         </div>
     </div>
-</div>
-</div>
-</div>
+</main>
 {% endblock%}
