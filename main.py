@@ -1,9 +1,9 @@
 from flask import Blueprint
 from flask import current_app
-from .app import create_app
-from .app import login_manager
-from .models import *
-from .decorators import admin_required, moderator_required, permission_required
+from app import create_app
+from app import login_manager
+from models import *
+from decorators import admin_required, moderator_required, permission_required
 from sqlalchemy import or_,and_
 from flask import (
     Flask,

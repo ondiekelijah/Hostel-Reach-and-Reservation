@@ -5,7 +5,7 @@
     <h3 class="text-primary">Users</h3>
     <div class="container">
         <p>
-            <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+            <a class="btn btn-primary btn-sm" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
                 Add User <i class="bi bi-person-plus m-1"></i>
             </a>
         </p>
@@ -70,12 +70,12 @@
                     <td>{{ user.uname }}</td>
                     <td>{{ user.email }}</td>
                     <td>
-                        <button type="button" class="btn btn-primary">
+                        <button type="button" class="btn btn-primary btn-sm">
                             <a href="{{ url_for('adm.account',user_id = user.id) }}" class="text-white">Edit<i class="bi bi-pencil m-1"></i></a>
                         </button>
                     </td>
                     <td>
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal">
                             <a href="{{ url_for('adm.delete_user',user_id = user.id) }}" class="text-white">Del<i class="bi bi-person-x m-1"></i> </a>
                         </button>
                     </td>

@@ -1,4 +1,4 @@
-from .app import db ,migrate,login_manager
+from app import db ,migrate,login_manager
 from flask_login import UserMixin, AnonymousUserMixin
 from flask_bcrypt import Bcrypt
 from datetime import datetime

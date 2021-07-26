@@ -49,16 +49,12 @@
             {% block content%}
             {% endblock %}
         </div>
-        <footer>
-<!--             <p class="footer-text">Copyright &copy; All Right Reserved
-                <script type="text/javascript">
-                document.write(new Date().getFullYear());
-                </script>&nbsp;. Designed by <a href="https://dev-elie.netlify.app/">Teksade</a>
-            </p>
- -->        </footer>
     </main>
+
     <!-- BOOTSTRAP JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js" integrity="sha384-LtrjvnR4Twt/qOuYxE721u19sVFLVSA4hf/rRt6PrZTmiPltdZcI7q7PXQBYTKyf" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script src="{{url_for('static',filename='js/base.js')}}"></script>
     <script src="{{url_for('static',filename='js/index.js')}}"></script>
 </body>

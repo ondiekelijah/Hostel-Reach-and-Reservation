@@ -7,8 +7,7 @@ from flask_moment import Moment
 from flask_moment import Moment
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
-from flask_migrate import Migrate, MigrateCommand
-from flask_script import Manager
+from flask_migrate import Migrate
 from flask_login import (
     UserMixin,
     login_user,
@@ -42,8 +41,6 @@ def create_app():
     with app.app_context():
         db.init_app(app)
     migrate.init_app(app, db)
-    manager = Manager(app)
-    manager.add_command('db', MigrateCommand)
     moment.init_app(app)
     bcrypt.init_app(app)
     search.init_app(app)
@@ -61,15 +58,15 @@ def create_app():
             return access
         
     admin = Admin(app,name='Admin Panel', template_mode='bootstrap3')
-    from .models import User,Role
+    from models import User,Role
     admin.add_view(MyModelView(User, db.session,menu_icon_type="fa",menu_icon_value="fa-list"))
     admin.add_view(MyModelView(Role, db.session))
 
 
-    from .auth.routes import auth
-    from .adm.routes import adm
-    from .adm.reports import reports
-    from .mpesa.pay import mpesa
+    from auth.routes import auth
+    from adm.routes import adm
+    from adm.reports import reports
+    from mpesa.pay import mpesa
 
 
 

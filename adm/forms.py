@@ -17,7 +17,7 @@ import flask_login
 from flask_login import current_user
 from wtforms import ValidationError
 from wtforms import validators
-from ..models import User
+from models import User
 
 
 class UpdateProfile(FlaskForm):

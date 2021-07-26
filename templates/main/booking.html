@@ -2,8 +2,8 @@
 {% block title%} {{ title }} {% endblock %}
 {% block content%}
 <div class="container booking">
-    <div class="row bg-white shadow-sm p-3 px-0 h-100">
-        <div class="col-md-6 m-2">
+    <div class="row bg-white shadow p-3 px-0 h-100">
+        <div class="col-md-6">
             <div class="w3-row">
                 <div class="w3-half">
                     <label>Monthly Rent</label>
@@ -21,7 +21,6 @@
                     <label>Size</label>
                     <p><i class="bi bi-check2-circle text-success m-1"></i>{{ room.size }}</p>
                 </div>
-           
                 <div class="w3-half">
                     <label>Hostel Name</label>
                     <p><i class="bi bi-check2-circle text-success m-1"></i>{{ hostel.name }}</p>
@@ -47,6 +46,23 @@
                     <p><i class="bi bi-check2-circle text-success m-1"></i>{{ hostel.description }}</p>
                 </div>
             </div>
+        </div>
+        <div class="col-md-6 bg-white shadow text-center">
+            <h5>Complete your booking</h5>
+            <p>Enter your mpesa number and click pay.Format as 254768144877 </p>
+            <input type="text" name="" placeholder="  254768144877">
+            <div class="cta">
+                <a href="#" class="explore-button" onclick="alertPayment()">Pay</a>
+            </div>
+            <script type="text/javascript">
+            Swal.fire({
+                title: 'Error!',
+                text: 'Do you want to continue',
+                icon: 'error',
+                confirmButtonText: 'Cool'
+            })
+            </script>
+            <!-- <img src="/static/images/pay.svg" class="img-fluid" style="height: 40%;"> -->
         </div>
     </div>
 </div>

@@ -4,7 +4,7 @@
 <div class="container">
     <h1 class="text-primary">Hostels</h1>
     <p>
-        <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+        <a class="btn btn-primary btn-sm" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
             {{ action }} <i class="bi bi-folder-plus m-1"></i>
         </a>
     </p>
@@ -104,12 +104,12 @@
                         <td>{{ hostel.contact }}</td>
                         <td>{{ hostel.description }}</td>
                         <td>
-                            <button type="button" class="btn btn-primary">
+                            <button type="button" class="btn btn-primary btn-sm">
                                 <a href="{{ url_for('adm.hostel_view',hostel_id=hostel.id) }}" class="text-white"><i class="bi bi-eye m-1"></i> </a>
                             </button>
                         </td>
                         <td>
-                            <button type="button" class="btn btn-primary">
+                            <button type="button" class="btn btn-primary btn-sm">
                                 <a href="{{ url_for('adm.edit_hostel',hostel_id=hostel.id) }}" class="text-white"><i class="bi bi-pencil m-1"></i> </a>
                             </button>
                         </td>

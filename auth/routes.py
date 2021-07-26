@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from .forms import *
 from . import *
 from wtforms import ValidationError, validators
-from ..app import db, bcrypt, login_manager
+from app import db, bcrypt, login_manager
 from flask import current_app
 from flask_login import (
     UserMixin,
@@ -32,9 +32,9 @@ from sqlalchemy.exc import (
     InterfaceError,
     InvalidRequestError,
 )
-from ..utils import *
+from utils import *
 from flask_bcrypt import generate_password_hash, check_password_hash
-from ..models import *
+from models import *
 
 auth = Blueprint("auth", __name__, url_prefix="/auth")
 

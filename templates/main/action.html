@@ -3,9 +3,9 @@
 {% block content%}
 <div class="container">
     <div class="row">
-        <div class="col-md-12 col-lg-12 px-0 h-100 bg-white shadow-sm">
+        <div class="col-md-12 col-lg-12 px-0 h-100 bg-white shadow">
             <div class="table-responsive-lg">
-                <table class="table table-hover table-borderless">
+                <table class="table table-borderless">
                     <thead>
                         <tr>
                             <th scope="col">Name</th>
@@ -23,22 +23,24 @@
                             <th scope="row">{{ hostel.name }}</th>
                             <td style="padding: 0px;">{{ hostel.location }}</td>
                             <td style="padding: 0px;">{{ hostel.management }}</td>
-<td style="padding: 0px;">{{Room.query.filter_by(status='Vacant',hostel_id=hostel.id).order_by(Room.id.desc()).count() }}</td>
+                            <td style="padding: 0px;">{{Room.query.filter_by(status='Vacant',hostel_id=hostel.id).order_by(Room.id.desc()).count() }}</td>
                             <td style="padding: 0px;">{{ hostel.caretaker }}</td>
                             <td style="padding: 0px;">{{ hostel.contact }}</td>
                             <td style="padding: 0px;">{{ hostel.description }}</td>
                             <td style="padding: 0px;">
-                                <a class="btn btn-primary" data-toggle="collapse" href="#{{hostel.caretaker}}" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                <a class="btn btn-primary" data-toggle="collapse" href="#book-{{hostel.id}}" role="button" aria-expanded="false" aria-controls="collapseExample">
                                     <i class="bi bi-plus m-1"></i>
                                 </a>
                             </td>
                         </tr>
                         <tr>
                             <td colspan="6">
-                                <div class="collapse" id="{{hostel.caretaker}}">
+                                <div class="collapse" id="book-{{hostel.id}}">
                                     <table class="table table-hover table-success">
                                         <thead>
                                             <tr>
+                                                <th></th>
+                                                <th></th>
                                                 <th scope="col">Rent</th>
                                                 <th scope="col">Deposit</th>
                                                 <th scope="col">Amenities</th>
@@ -49,6 +51,8 @@
                                             {% for room in available %}
                                             {% if room.hostel_id == hostel.id %}
                                             <tr>
+                                                <th></th>
+                                                <th></th>
                                                 <th scope="row">{{ room.rent}} </th>
                                                 <td> {{ room.deposit}} </td>
                                                 <td> {{ room.amenities }} </td>
