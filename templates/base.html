@@ -33,7 +33,7 @@
     <header id="header" class="fixed-top d-flex align-items-center">
         <div class="container d-flex align-items-center">
             <div class="logo me-auto">
-                <h1><a href="index.html">pataHao</a></h1>
+                <h1><a href="{{url_for('index')}}">pataHao</a></h1>
             </div>
             <nav id="navbar" class="navbar order-last order-lg-0">
                 <ul>
@@ -66,10 +66,6 @@
     <script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script>
     <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-    <!-- INTERNAL PLUGINS -->
-    <script src="{{url_for('static',filename='static/vendor/tinymce/jquery.tinymce.min.js')}}"></script>
-    <script src="{{url_for('static',filename='static/vendor/tinymce/tinymce.min.js')}}"></script>
-    <script src="{{url_for('static',filename='static/vendor/tinymce/init-tinymce.js')}}"></script>
     <!-- Template Main JS File -->
     <script src="{{url_for('static',filename='js/base.js')}}"></script>
 </body>

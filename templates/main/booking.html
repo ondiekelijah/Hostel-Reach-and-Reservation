@@ -69,22 +69,29 @@
             .mpesa {
                 height: 15%;
             }
+            #pay-btn{
+                padding: 10px 24px;
+            }
             </style>
             <img src="/static/img/lipa-na-mpesa.jpg" class="mpesa">
             <p>Enter your mpesa number and click pay.Format as 254768144877 </p>
             <form>
                 <input type="text" name="" placeholder="254768144877" class="number-box">
                 <div class="pt-2">
-                    <a class="btn btn-primary rounded-pill" type="button" onclick="alertPayment()">Click to Pay</a>
+                    <a class="btn btn-primary rounded-pill" type="button" id="pay-btn">Click to Pay</a>
                 </div>
             </form>
             <script type="text/javascript">
-            Swal.fire({
-                title: 'Error!',
-                text: 'Do you want to continue',
-                icon: 'error',
-                confirmButtonText: 'Cool'
-            })
+            $(document).ready(function() {
+                $("#pay-btn").click(function() {
+                    // disable button
+                    $(this).prop("disabled", true);
+                    // add spinner to button
+                    $(this).html(
+                        `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...`
+                    );
+                });
+            });
             </script>
         </div>
     </div>
