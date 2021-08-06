@@ -61,17 +61,16 @@ def global_hostels():
 def admindash():
     hostels = Hostel.query.order_by(Hostel.id.desc()).all()
 
-    booked = Room.query.filter_by(status='Booked').order_by(Room.id.desc()).count()
-    vacant = Room.query.filter_by(status='Vacant').order_by(Room.id.desc()).count()
-    occupied = Room.query.filter_by(status='Occupied').order_by(Room.id.desc()).count()
+    booked = Room.query.order_by(Room.id.desc()).count()
+    vacant = Room.query.order_by(Room.id.desc()).count()
+    occupied = Room.query.order_by(Room.id.desc()).count()
+
 
     bs = Room.query.filter_by(size='Bedsitter').order_by(Room.id.desc()).count()
     single = Room.query.filter_by(size='Single').order_by(Room.id.desc()).count()    
     oneb = Room.query.filter_by(size='1 B').order_by(Room.id.desc()).count()
     twob = Room.query.filter_by(size='2 B').order_by(Room.id.desc()).count()
 
-    re_de=Room.query.with_entities(Room.rent, Room.deposit).order_by(Room.id.desc())
-    re_sizes=Room.query.with_entities(Room.size).order_by(Room.id.desc())
 
     data=list((booked,vacant,occupied))
     labels=list(("booked","vacant","occupied"))
@@ -82,6 +81,7 @@ def admindash():
     user_count = User.query.order_by(User.id.desc()).count()
     hostel_count = Hostel.query.order_by(Hostel.id.desc()).count()
     room_count = Room.query.order_by(Room.id.desc()).count()
+    trans_count = Transactions.query.order_by(Transactions.id.desc()).count()
 
     return render_template("adm/dashboard.html",
         hostels=hostels,
@@ -92,6 +92,7 @@ def admindash():
         user_count=user_count,
         hostel_count=hostel_count,
         room_count=room_count,
+        trans_count=trans_count,
         title='Admin Dashboard'
         )
 
@@ -153,7 +154,12 @@ def users():
 @login_required
 @admin_required
 def transactions():
-    return render_template("adm/transactions.html",title='Transactions')
+    transactions = Transactions.query.order_by(Transactions.id.desc()).all()
+
+    return render_template("adm/transactions.html",
+        title='Transactions',
+        transactions=transactions
+        )
 
 # Hostels route
 @adm.route("/hostels", methods=("GET", "POST"), strict_slashes=False)
@@ -229,10 +235,7 @@ def hostel_view(hostel_id):
             deposit = form.deposit.data
             amenities = form.amenities.data
             size = form.size.data
-            status = form.status.data
-            newRoom = Room(
-                hostel_id=hostel_id,rent=rent,deposit=deposit,amenities=amenities,size=size,status=status
-                )
+            newRoom = Room(hostel_id=hostel_id,rent=rent,deposit=deposit,amenities=amenities,size=size)
 
             db.session.add(newRoom)
             db.session.commit()
@@ -341,7 +344,6 @@ def edit_room(hostel_id,room_id):
             room.deposit = form.deposit.data
             room.amenities = form.amenities.data
             room.size = form.size.data
-            room.status = form.status.data
 
             db.session.commit()
             flash("Room has been updated", "success")
@@ -370,7 +372,6 @@ def edit_room(hostel_id,room_id):
         form.deposit.data = room.deposit 
         form.amenities.data= room.amenities
         form.size.data = room.size
-        form.status.data = room.status 
 
     return render_template("adm/hostel_view.html",
         hostel=hostel,

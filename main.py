@@ -5,6 +5,7 @@ from app import login_manager
 from models import *
 from decorators import admin_required, moderator_required, permission_required
 from sqlalchemy import or_,and_
+from sqlalchemy.sql import func
 from flask import (
     Flask,
     render_template,
@@ -23,7 +24,8 @@ from flask_login import (
     login_required,
 )
 import requests
-import json
+import json,re
+import vonage
 from requests.auth import HTTPBasicAuth
 import unicodedata, re, itertools, sys
 
@@ -34,26 +36,37 @@ app = create_app()
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+def all_rooms(par):
+    room_count = list()
+    for i in par:
+        i = re.sub('[^0-9]','', str(i))
+        room_count.append(int(i))
+    available = sum(room_count)
+
+    return available
+
 
 @app.route('/',methods=("GET", "POST"), strict_slashes=False)
 def index():
-    total = Room.query.order_by(Room.id.desc()).count()
-    booked = Room.query.filter_by(status='Booked').order_by(Room.id.desc()).count()
-    available = Room.query.filter_by(status='Vacant').order_by(Room.id.desc()).count()
+    total = Hostel.query.count()
+    booked = BookedRoom.query.count()
+
+    available = Hostel.query.with_entities(Hostel.rooms).all()
+    available = all_rooms(available)
 
 
     hostels = Hostel.query.order_by(Hostel.id.desc()).all()
-    available_rooms = Room.query.filter_by(status='Vacant').order_by(Room.id.desc()).all()
+    rooms = Room.query.order_by(Room.id.desc()).all()
 
                 
     return render_template("main/index.html",
         Room=Room,
         total=total,
-        booked=booked,
         available=available,
         hostels=hostels,
         title="PataHao | Home",
-        available_rooms=available_rooms
+        rooms=rooms,
+        booked=booked
         )
 
 # Search results route
@@ -63,12 +76,12 @@ def result():
 
     if request.method == 'POST':
         hostels = Hostel.query.filter(or_(Hostel.name.ilike(f'%{keyword}%'), Hostel.location.ilike(f'%{keyword}%'))).all()
-        available = Room.query.filter_by(status='Vacant').order_by(Room.id.desc()).all()
+        available = Room.query.order_by(Room.id.desc()).all()
         return render_template("main/action.html",hostels=hostels,Room=Room,available=available)
 
     else:
         hostels = Hostel.query.order_by(Hostel.id.desc()).all()
-        available = Room.query.filter_by(status='Vacant').order_by(Room.id.desc()).all()
+        available = Room.query.order_by(Room.id.desc()).all()
 
         return render_template("main/action.html",
             hostels=hostels,
@@ -90,8 +103,47 @@ def result():
 @app.route("/booking/<int:hostel_id>/<int:room_id>/", methods=("GET", "POST"), strict_slashes=False)
 def booking(hostel_id,room_id):
 
+    client = vonage.Client(key="a8c3fad6", secret="8wwGBegjQ5fH4rMr")
+    sms = vonage.Sms(client)
+
     hostel = Hostel.query.filter_by(id=hostel_id).first()
     room = Room.query.filter_by(id=room_id).first()
+
+    room_id = room.id
+    hostel_id = hostel.id
+    phone_no = request.form.get('phone_no')
+
+    if request.method == 'POST':
+
+        room = BookedRoom(
+            room_id = room_id,
+            hostel_id = hostel_id,
+            phone_no = phone_no
+            )
+
+        transaction = Transactions(
+            phone_no = phone_no
+            )
+
+        db.session.add(room)
+        db.session.add(transaction)
+
+        hostel.rooms -= 1
+        db.session.commit()
+
+        responseData = sms.send_message(
+            {
+                "from": "Patahao MUT",
+                "to": phone_no,
+                "text": "Your room has been reserved.Report within 2 hours from booking time. Failure to will lead to declaration of a vacancy",
+            }
+        )
+
+        if responseData["messages"][0]["status"] == "0":
+            flash(f"Your room has been reserved.Report within 2 hours from booking time. Failure to will lead to declaration of a vacancy", "success")
+        else:
+            flash(f"Message failed with error: {responseData['messages'][0]['error-text']}","danger")
+
 
     return render_template("main/booking.html",hostel=hostel,room=room, title="PataHao | Book",)
 
@@ -103,7 +155,7 @@ def bad_request(e):
 
 @app.errorhandler(401)
 def unauthorised(e):
-    return render_template("errors/401.html", title="Unauthorised"), 401
+    return render_template("errors/401.html", title="Unauthorized"), 401
 
 
 @app.errorhandler(403)

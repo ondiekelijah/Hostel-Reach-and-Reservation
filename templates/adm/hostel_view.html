@@ -52,40 +52,34 @@
             </div>
             {% endfor%}
             <div class="form-group">
-                {{ form.amenities(class="form-control")}}
+                <label>Extra amenities e.g Wifi. Separated by a comma</label>
+                {{ form.amenities(class="form-control",placeholder="Wifi, Hot Shower, Warddrobes") }}
             </div>
             <div class="form-group">
                 {{ form.size(class="form-control",placeholder="Size")}}
             </div>
-            <div class="form-group">
-                {{ form.status(class="form-control",placeholder="Status")}}
-            </div>
-            <button type="submit" class="btn btn-primary"> {{ action_btn }} </button>
+            <button type="submit" class="btn btn-primary btn-sm"> {{ action_btn }} </button>
         </form>
     </div>
 </div>
 <div class="container">
-    <p class="lead text-muted">Available Rooms </p>
+    <p class="lead text-muted">Description of Rooms</p>
     <div class="table-responsive-lg">
         <table class="table table-hover">
             <thead>
-                <tr><th scope="col">Room No</th>
-                    <th scope="col">Rent</th>
-                    <th scope="col">Deposit</th>
+                    <th scope="col">Rent (Kshs)</th>
+                    <th scope="col">Deposit (Kshs)</th>
                     <th scope="col">Amenities</th>
                     <th scope="col">Size</th>
-                    <th scope="col">Status</th>
                 </tr>
             </thead>
             <tbody>
                 {% for room in rooms %}
                 <tr>
-                    <th scope="row">{{ room.id }}</th>
                     <td>{{ room.rent }}</td>
                     <td>{{ room.deposit }}</td>
                     <td>{{ room.amenities }}</td>
                     <td>{{ room.size }}</td>
-                    <td>{{ room.status }}</td>
                 </tr>
                 {% endfor %}
             </tbody>

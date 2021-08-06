@@ -110,7 +110,7 @@ class Hostel(UserMixin, db.Model):
     name = db.Column(db.String(100), nullable=False, index=True, unique=True)
     location = db.Column(db.String(300), nullable=False)    
     management = db.Column(db.String(300), nullable=False) 
-    rooms = db.Column(db.String(100), nullable=False)
+    rooms = db.Column(db.Integer, nullable=False)
     caretaker = db.Column(db.String(300), nullable=False)
     contact = db.Column(db.String(10), nullable=False)  
     description = db.Column(db.Text, nullable=False)
@@ -126,10 +126,36 @@ class Room(UserMixin, db.Model):
     deposit = db.Column(db.Integer)
     amenities = db.Column(db.String(300), nullable=False)
     size= db.Column(db.String(300), nullable=False)
-    status = db.Column(db.String(300), nullable=False)
     hostel_id = db.Column(db.Integer, db.ForeignKey("hostel.id"), nullable=False)
     hostel = db.relationship("Hostel", backref=db.backref("hostel"), lazy=True)
 
 
     def __repr__(self):
         return '<Room %r>' % self.rent
+
+class BookedRoom(UserMixin, db.Model):
+    __tablename__ = "bookedroom"
+    id = db.Column(db.Integer, primary_key=True)
+    phone_no = db.Column(db.String(13), nullable=False)
+
+    hostel_id = db.Column(db.Integer, db.ForeignKey("hostel.id"), nullable=False)
+    hostel = db.relationship("Hostel", backref=db.backref("room_hostel"), lazy=True)
+
+    room_id = db.Column(db.Integer, db.ForeignKey("room.id"), nullable=False)
+    room = db.relationship("Room", backref=db.backref("room"), lazy=True)
+
+
+    def __repr__(self):
+        return '<BookedRoom %r>' % self.phone_no
+
+
+class Transactions(UserMixin, db.Model):
+    __tablename__ = "transactions"
+    id = db.Column(db.Integer, primary_key=True)
+    phone_no = db.Column(db.String(13), nullable=False)
+    date = db.Column(db.DateTime(), default=datetime.utcnow) 
+    amount = db.Column(db.Integer, default=100)
+
+
+    def __repr__(self):
+        return '<Transactions %r>' % self.phone_no

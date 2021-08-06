@@ -27,19 +27,19 @@
             <div class="col-sm-4">
                 <div class="stats-card">
                     <div class="value">{{ total }}</div>
-                    <p class="stats-card-text">Total</p>
+                    <p class="stats-card-text">Hostels</p>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="stats-card">
+                    <div class="value">{{ available }}</div>
+                    <p class="stats-card-text">Vacant</p>
                 </div>
             </div>
             <div class="col-sm-4">
                 <div class="stats-card">
                     <div class="value">{{ booked }}</div>
                     <p class="stats-card-text">Booked</p>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="stats-card">
-                    <div class="value">{{ available }}</div>
-                    <p class="stats-card-text">Available</p>
                 </div>
             </div>
         </div>
@@ -70,7 +70,7 @@
                             <th scope="row">{{ hostel.name }}</th>
                             <td>{{ hostel.location }}</td>
                             <td>{{ hostel.management }}</td>
-                            <td>{{Room.query.filter_by(status='Vacant',hostel_id=hostel.id).order_by(Room.id.desc()).count() }}</td>
+                            <td>{{ hostel.rooms }}</td>
                             <td>{{ hostel.caretaker }}</td>
                             <td>{{ hostel.contact }}</td>
                             <td>{{ hostel.description }}</td>
@@ -98,7 +98,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {% for room in available_rooms %}
+                                            {% for room in rooms %}
                                             {% if room.hostel_id == hostel.id %}
                                             <tr>
                                                 <th></th>

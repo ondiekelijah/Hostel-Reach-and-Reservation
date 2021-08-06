@@ -4,6 +4,18 @@
 <div class="container" style="margin-top: 5rem;">
     <div class="section-title">
         <h3>Complete <span>Reservation </span>/ Booking</h3>
+        <div class="p-4">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                {{ message }}
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+        </div>
     </div>
     <div class="row booking">
         <div class="col-md-6">
@@ -69,28 +81,39 @@
             .mpesa {
                 height: 15%;
             }
-            #pay-btn{
+
+            #pay-btn {
                 padding: 10px 24px;
             }
             </style>
             <img src="/static/img/lipa-na-mpesa.jpg" class="mpesa">
-            <p>Enter your mpesa number and click pay.Format as 254768144877 </p>
-            <form>
-                <input type="text" name="" placeholder="254768144877" class="number-box">
+            <p>Enter your mpesa number and click pay.Format as 254708176232 </p>
+            <form method="POST" action=" {{ request.path }} ">
+                <input type="text" name="phone_no" id="phone_no" placeholder="254708176232" class="number-box" required>
+                <p id="phone-text"></p>
                 <div class="pt-2">
-                    <a class="btn btn-primary rounded-pill" type="button" id="pay-btn">Click to Pay</a>
+                    <button class="btn btn-primary rounded-pill" type="submit" id="pay-btn">Click to Pay</button>
                 </div>
             </form>
             <script type="text/javascript">
             $(document).ready(function() {
-                $("#pay-btn").click(function() {
-                    // disable button
-                    $(this).prop("disabled", true);
-                    // add spinner to button
-                    $(this).html(
-                        `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...`
-                    );
+                var code = document.getElementById("phone_no");
+                var display = document.getElementById("phone-text");
+
+                code.addEventListener("keyup", function() {
+                    checkpassword(code.value);
                 });
+
+                function checkpassword(phone) {
+
+                    if (phone.length < 12) {
+                        display.innerHTML = "Minimum is 12 digits";
+                    } else if (phone.length > 12) {
+                        display.innerHTML = "Maximum is 12 digits";
+                    } else {
+                        display.innerHTML = "";
+                    }
+                }
             });
             </script>
         </div>

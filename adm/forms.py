@@ -69,9 +69,8 @@ class AddHostel(FlaskForm):
 class Rooms(FlaskForm):
     rent = IntegerField(validators=[InputRequired()])
     deposit = IntegerField(validators=[InputRequired()])
-    amenities = SelectField(choices=[('Wifi'),('Study table'),('Bed'),('Wardrobe'),('Kitchen Shelves')])
+    amenities = StringField(validators=[InputRequired(),Length(min=3, max=300)])
     size = SelectField("Size", choices=[('Single'),('Bedsitter'),('1 B'),('2 B')]) 
-    status = SelectField("Status", choices=[('Vacant'),('Booked'),('Occupied')])
 
 
 
