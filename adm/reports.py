@@ -2,7 +2,6 @@ from flask import Blueprint
 from flask_sqlalchemy import SQLAlchemy
 from auth.forms import register_form
 from . import *
-
 from wtforms import ValidationError, validators
 from app import db, bcrypt, login_manager
 from flask import current_app
@@ -29,6 +28,7 @@ from flask import (
     Response,
     send_from_directory,
 )
+from decorators import admin_required, moderator_required, permission_required
 from werkzeug.routing import BuildError
 from sqlalchemy.exc import (
     IntegrityError,
@@ -50,8 +50,9 @@ def load_user(user_id):
 
 
 @reports.route('/reports/users')
+@login_required
+@admin_required
 def users_report():
-
     users = User.query.order_by(User.id.asc()).all()
     pdf = FPDF()
     pdf.add_page()
@@ -88,6 +89,8 @@ def users_report():
 
 
 @reports.route('/reports/rooms')
+@login_required
+@admin_required
 def rooms_report():
 
     rooms = Room.query.order_by(Room.id.asc()).all()
@@ -131,6 +134,8 @@ def rooms_report():
 
 
 @reports.route('/reports/hostels')
+@login_required
+@admin_required
 def hostel_report():
 
     hostels = Hostel.query.order_by(Hostel.id.asc()).all()

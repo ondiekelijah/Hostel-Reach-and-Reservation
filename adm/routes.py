@@ -39,6 +39,7 @@ from sqlalchemy.exc import (
 from utils import *
 from flask_bcrypt import generate_password_hash, check_password_hash
 from models import *
+from decorators import admin_required, moderator_required, permission_required
 
 adm = Blueprint("adm", __name__, url_prefix="/auth")
 
@@ -55,6 +56,8 @@ def global_hostels():
 
 # ADMIN route
 @adm.route("/admin", methods=("GET", "POST"), strict_slashes=False)
+@login_required
+@admin_required
 def admindash():
     hostels = Hostel.query.order_by(Hostel.id.desc()).all()
 
@@ -94,6 +97,8 @@ def admindash():
 
 # All Users route
 @adm.route("/users", methods=("GET", "POST"), strict_slashes=False)
+@login_required
+@admin_required
 def users():
     all_hostels = global_hostels()
     users = User.query.order_by(User.id.desc()).all()
@@ -145,11 +150,15 @@ def users():
 
 # Transactions route
 @adm.route("/transactions", methods=("GET", "POST"), strict_slashes=False)
+@login_required
+@admin_required
 def transactions():
     return render_template("adm/transactions.html",title='Transactions')
 
 # Hostels route
 @adm.route("/hostels", methods=("GET", "POST"), strict_slashes=False)
+@login_required
+@admin_required
 def hostels():
     hostels = Hostel.query.order_by(Hostel.id.desc()).all()
     form = AddHostel()
@@ -206,6 +215,7 @@ def hostels():
 # View Hostels Route
 @adm.route("/hostel/<int:hostel_id>/view", methods=("GET", "POST"), strict_slashes=False)
 @login_required
+@admin_required
 # @admin_required
 def hostel_view(hostel_id):
     form = Rooms()
@@ -257,6 +267,8 @@ def hostel_view(hostel_id):
         title="Hostel | View")
 # Rooms route
 @adm.route("/rooms", methods=("GET", "POST"), strict_slashes=False)
+@login_required
+@admin_required
 def rooms():
     rooms = Room.query.order_by(Room.id.desc()).all()
 
@@ -266,6 +278,7 @@ def rooms():
 # Edit user route
 @adm.route("/edit/<int:user_id>", methods=("GET", "POST"), strict_slashes=False)
 @login_required
+@admin_required
 # @admin_required
 def account(user_id):
     user =  User.query.filter_by(id=user_id).first()
@@ -314,6 +327,7 @@ def account(user_id):
 
 @adm.route("/rooms/<int:hostel_id>/<int:room_id>", methods=("GET", "POST"), strict_slashes=False)
 @login_required
+@admin_required
 # @admin_required
 def edit_room(hostel_id,room_id):
     form = Rooms()
@@ -368,6 +382,8 @@ def edit_room(hostel_id,room_id):
 
 # Edit hostel
 @adm.route("/hostels/<int:hostel_id>/edit", methods=("GET", "POST"), strict_slashes=False)
+@login_required
+@admin_required
 def edit_hostel(hostel_id):
     hostel =  Hostel.query.filter_by(id=hostel_id).first()
     hostels = Hostel.query.order_by(Hostel.id.desc()).all()

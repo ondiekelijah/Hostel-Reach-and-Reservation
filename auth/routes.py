@@ -34,6 +34,7 @@ from sqlalchemy.exc import (
 )
 from utils import *
 from flask_bcrypt import generate_password_hash, check_password_hash
+from decorators import admin_required, moderator_required, permission_required
 from models import *
 
 auth = Blueprint("auth", __name__, url_prefix="/auth")
@@ -46,6 +47,8 @@ def load_user(user_id):
 
 
 @auth.route("/register", methods=("GET", "POST"), strict_slashes=False)
+@login_required
+@admin_required
 def register():
     form = register_form()
     if form.validate_on_submit():

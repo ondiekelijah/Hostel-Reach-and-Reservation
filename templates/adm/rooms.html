@@ -8,6 +8,7 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
+                        <th scope="col">Room No</th>
                         <th scope="col">Rent</th>
                         <th scope="col">Deposit</th>
                         <th scope="col">Amenities</th>
@@ -18,6 +19,7 @@
                 <tbody>
                     {% for room in rooms %}
                     <tr>
+                        <th scope="row">{{ room.id }}</th>
                         <th scope="row">{{ room.rent }}</th>
                         <td>{{ room.deposit }}</td>
                         <td>{{ room.amenities }}</td>

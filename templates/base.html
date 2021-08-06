@@ -41,7 +41,7 @@
                     <li><a class="nav-link scrollto" href="{{url_for('index')}}#available">Available Houses</a></li>
                     <li><a class="nav-link scrollto " href="#">Gallery</a></li>
                     {% if current_user.is_authenticated and current_user.is_administrator() %}
-                    <li><a href="{{ url_for('adm.admindash') }}" class="menu-btn"> {{current_user.uname}} </a></li>
+                    <li><a href="{{ url_for('adm.admindash') }}" class="menu-btn"> <i class="bi bi-person-check text-primary m-2"></i>{{current_user.uname}} </a></li>
                     {%else%}
                     <li><a href="#" class="menu-btn">Guest</a></li>
                     {% endif %}
