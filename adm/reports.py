@@ -40,6 +40,8 @@ from sqlalchemy.exc import (
 from utils import *
 from flask_bcrypt import generate_password_hash, check_password_hash
 from models import *
+from datetime import datetime
+import time
 
 reports = Blueprint("reports", __name__, url_prefix="/auth")
 
@@ -59,30 +61,63 @@ def users_report():
         
     page_width = pdf.w - 2 * pdf.l_margin
         
-    pdf.set_font('Times','B',14.0) 
+    # set style and size of font 
+    # that you want in the pdf
+    pdf.set_font("Courier", 'B' ,size = 15.0)
+  
+    # create a cell
+    pdf.cell(200, 10, txt = "Patahao Limited", 
+            ln = 1, align = 'C')
+  
+    # add another cell
+    pdf.cell(200, 10, txt = "Users Data Report.",
+            ln = 2, align = 'C')
 
-    pdf.cell(page_width, 0.0, 'Users Data', align='C')
+    # add another cell
+    date = datetime.now()
+    today = date.today()
+    d2 = today.strftime("%B %d, %Y")
+
+    t = time.localtime()
+    current_time = time.strftime("%H:%M:%S", t)
+
+    pdf.set_font("Arial", size = 9.0)
+
+    pdf.cell(200, 10, txt = str(d2) + "  " + str(current_time),
+            ln = 1, align = 'C')
 
     pdf.ln(10)
 
-    pdf.set_font('Courier', '', 12)
+    pdf.set_font('Arial', 'B', 11)
         
     col_width = page_width/3
     
     pdf.ln(1)
         
-    th = pdf.font_size
-        
+    th = 1.5 * (pdf.font_size)
+    
+    pdf.cell(col_width, th, 'ID', border=1)
+    pdf.cell(col_width, th, 'Username', border=1)
+    pdf.cell(col_width, th, 'Email', border=1)
+    pdf.ln(th)
+
+    pdf.set_font('Arial', '', 10)
+
     for row in users:
         pdf.cell(col_width, th, str(row.id), border=1)
         pdf.cell(col_width, th, row.uname, border=1)
         pdf.cell(col_width, th, row.email, border=1)
         pdf.ln(th)
         
-    pdf.ln(10)
+    pdf.ln(15)
         
     pdf.set_font('Times','',10.0) 
-    pdf.cell(page_width, 0.0, '- end of report -', align='C')
+
+    pdf.cell(200, 10, txt = "- End of report -",
+            ln = 1, align = 'C')
+    pdf.cell(200, 10, txt = "© Copyright pataHao. Reports",
+            ln = 2, align = 'C')
+
         
     return Response(pdf.output(dest='S').encode('latin-1'), mimetype='application/pdf', headers={'Content-Disposition':'attachment;filename=users_report.pdf'})
 
