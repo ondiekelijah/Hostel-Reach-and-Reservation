@@ -101,8 +101,10 @@ def result():
 
 
 @app.route("/booking/<int:hostel_id>/<int:room_id>/", methods=("GET", "POST"), strict_slashes=False)
-def booking(hostel_id,room_id):
 
+
+
+def booking(hostel_id,room_id):
     client = vonage.Client(key="a8c3fad6", secret="8wwGBegjQ5fH4rMr")
     sms = vonage.Sms(client)
 
@@ -114,19 +116,13 @@ def booking(hostel_id,room_id):
     phone_no = request.form.get('phone_no')
 
     if request.method == 'POST':
-
         room = BookedRoom(
             room_id = room_id,
             hostel_id = hostel_id,
             phone_no = phone_no
             )
 
-        transaction = Transactions(
-            phone_no = phone_no
-            )
-
         db.session.add(room)
-
         hostel.rooms -= 1
         db.session.commit()
 
@@ -134,7 +130,7 @@ def booking(hostel_id,room_id):
             {
                 "from": "Patahao MUT",
                 "to": phone_no,
-                "text": "Your room has been reserved.Report within 2 hours from booking time. Failure to will lead to declaration of a vacancy",
+                "text": "Your room has been reserved.Report within 2 hours from booking time.Failure to will lead to declaration of a vacancy",
             }
         )
 
@@ -142,7 +138,6 @@ def booking(hostel_id,room_id):
             flash(f"Your room has been reserved.Report within 2 hours from booking time. Failure to will lead to declaration of a vacancy", "success")
         else:
             flash(f"Message failed with error: {responseData['messages'][0]['error-text']}","danger")
-
 
     return render_template("main/booking.html",hostel=hostel,room=room, title="PataHao | Book",)
 
