@@ -37,7 +37,6 @@ from sqlalchemy.exc import (
     InterfaceError,
     InvalidRequestError,
 )
-from utils import *
 from flask_bcrypt import generate_password_hash, check_password_hash
 from models import *
 from datetime import datetime

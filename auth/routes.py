@@ -32,7 +32,6 @@ from sqlalchemy.exc import (
     InterfaceError,
     InvalidRequestError,
 )
-from utils import *
 from flask_bcrypt import generate_password_hash, check_password_hash
 from decorators import admin_required, moderator_required, permission_required
 from models import *

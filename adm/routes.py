@@ -36,7 +36,6 @@ from sqlalchemy.exc import (
     InterfaceError,
     InvalidRequestError,
 )
-from utils import *
 from flask_bcrypt import generate_password_hash, check_password_hash
 from models import *
 from decorators import admin_required, moderator_required, permission_required
@@ -147,18 +146,6 @@ def users():
         action="Add User",
         action_btn="Save",
         title='Users'
-        )
-
-# Transactions route
-@adm.route("/transactions", methods=("GET", "POST"), strict_slashes=False)
-@login_required
-@admin_required
-def transactions():
-    transactions = Transactions.query.order_by(Transactions.id.desc()).all()
-
-    return render_template("adm/transactions.html",
-        title='Transactions',
-        transactions=transactions
         )
 
 # Hostels route
