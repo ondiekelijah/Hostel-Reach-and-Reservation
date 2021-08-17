@@ -126,7 +126,6 @@ def booking(hostel_id,room_id):
             )
 
         db.session.add(room)
-        db.session.add(transaction)
 
         hostel.rooms -= 1
         db.session.commit()
@@ -152,36 +151,29 @@ def booking(hostel_id,room_id):
 def bad_request(e):
     return render_template("errors/400.html", title="Bad Request"), 400
 
-
 @app.errorhandler(401)
 def unauthorised(e):
     return render_template("errors/401.html", title="Unauthorized"), 401
-
 
 @app.errorhandler(403)
 def forbidden(e):
     return render_template("errors/403.html", title="Forbidden"), 403
 
-
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template("errors/404.html", title="Page Not Found"), 404
-
 
 @app.errorhandler(500)
 def internal_server_error(e):
     return render_template("errors/500.html", title="Internal Server Error"), 500
 
-
 @app.errorhandler(408)
 def request_time_out(e):
     return render_template("errors/408.html", title="Request Time-Out"), 408
 
-
 @app.errorhandler(501)
 def not_implemented(e):
     return render_template("errors/501.html", title="Not Implemented"), 501
-
 
 @app.errorhandler(502)
 def service_temporarily_overloaded(e):

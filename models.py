@@ -138,24 +138,11 @@ class BookedRoom(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     phone_no = db.Column(db.String(13), nullable=False)
 
-    hostel_id = db.Column(db.Integer, db.ForeignKey("hostel.id"), nullable=False)
-    hostel = db.relationship("Hostel", backref=db.backref("room_hostel"), lazy=True)
-
     room_id = db.Column(db.Integer, db.ForeignKey("room.id"), nullable=False)
     room = db.relationship("Room", backref=db.backref("room"), lazy=True)
+
+    date = db.Column(db.DateTime(), default=datetime.utcnow)
 
 
     def __repr__(self):
         return '<BookedRoom %r>' % self.phone_no
-
-
-class Transactions(UserMixin, db.Model):
-    __tablename__ = "transactions"
-    id = db.Column(db.Integer, primary_key=True)
-    phone_no = db.Column(db.String(13), nullable=False)
-    date = db.Column(db.DateTime(), default=datetime.utcnow) 
-    amount = db.Column(db.Integer, default=100)
-
-
-    def __repr__(self):
-        return '<Transactions %r>' % self.phone_no
