@@ -1,0 +1,32 @@
+{% extends "admin_base.html" %}
+{% block title%} {{ title }} {% endblock %}
+{% block content%}
+<div class="container">
+    <div class="container">
+        <p class="lead text-primary">Booked Rooms </p>
+        <div class="table-responsive-lg">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Room No</th>
+                        <th scope="col">Booked by</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Hostel</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for room in rooms %}
+                    <tr>
+                        <th scope="row">{{ room.id }}</th>
+                        <th scope="row">{{ room.phone_no }}</th>
+                        <td>{{ room.date }}</td>
+                        <td>{{ room.room.hostel.name }}</td>
+
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock%}

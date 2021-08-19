@@ -29,9 +29,11 @@ search = Search()
 def create_app():
     app = Flask(__name__)
     app.secret_key = "67eadccda3bc198fangeluspaintissalife"
+
     app.config[
         "SQLALCHEMY_DATABASE_URI"
     ] = "mysql+mysqlconnector://elie:dev123@localhost/hostel_reach"
+    # app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///hostel.db"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     app.config['INFOKIT_ADMIN'] = "eochieng9448@gmail.com"
 

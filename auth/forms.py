@@ -21,7 +21,7 @@ class register_form(FlaskForm):
     uname = StringField(
         validators=[
             InputRequired(),
-            Length(3, 10, message="Please provide a valid name"),
+            Length(3, 10, message="Please provide a valid username"),
             Regexp(
                 "^[A-Za-z][A-Za-z0-9_.]*$",
                 0,
@@ -38,7 +38,6 @@ class register_form(FlaskForm):
             EqualTo("pwd", message="Passwords must match !"),
         ]
     )
-
     def validate_email(self, email):
         if User.query.filter_by(email=email.data).first():
             raise ValidationError("Email already registered.")
@@ -52,7 +51,7 @@ class login_form(FlaskForm):
     uname = StringField(
     validators=[
         InputRequired(),
-        Length(3, 10, message="Please provide a valid name"),
+        Length(3, 10, message="Please provide a valid username"),
         Regexp(
             "^[A-Za-z][A-Za-z0-9_.]*$",
             0,
@@ -68,52 +67,3 @@ class login_form(FlaskForm):
     )
     email = StringField(validators=[Optional()])
 
-
-
-# class UpdateProfile(FlaskForm):
-#     uname = StringField(
-#         validators=[
-#             InputRequired(),
-#             Length(3, 10, message="Please provide a valid name (length of 3-10 )"),
-#             Regexp(
-#                 "^[A-Za-z][A-Za-z0-9_.]*$",
-#                 0,
-#                 "Usernames must have only letters, " "numbers, dots or underscores",
-#             ),
-#         ]
-#     )
-#     email = StringField(validators=[InputRequired(), Email(), Length(1, 64)])
-#     fname = StringField(
-#         validators=[
-#             InputRequired(),
-#             Length(3, 20, message="Please provide a valid name"),
-#             Regexp(
-#                 "^[A-Za-z][A-Za-z0-9_.]*$",
-#                 0,
-#                 "Names must have only letters, " "numbers, dots or underscores",
-#             ),
-#         ]
-#     )
-#     lname = StringField(
-#         validators=[
-#             InputRequired(),
-#             Length(3, 20, message="Please provide a valid name"),
-#             Regexp(
-#                 "^[A-Za-z][A-Za-z0-9_.]*$",
-#                 0,
-#                 "Names must have only letters, " "numbers, dots or underscores",
-#             ),
-#         ]
-#     )
-#     about = TextAreaField()
-#     profileImg = FileField(validators=[FileAllowed(["jpg", "png", "jpeg", "svg"])])
-
-#     def validate_uname(self, uname):
-#         if uname.data != current_user.uname:
-#             if User.query.filter_by(uname=uname.data).first():
-#                 raise ValidationError("Username already used.")
-
-#     def validate_email(self, email):
-#         if email.data != current_user.email:
-#             if User.query.filter_by(email=email.data).first():
-#                 raise ValidationError("Email already in use.")

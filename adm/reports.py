@@ -134,33 +134,67 @@ def rooms_report():
         
     page_width = pdf.w - 2 * pdf.l_margin
         
-    pdf.set_font('Times','B',14.0) 
-    pdf.cell(page_width, 0.0, 'Room Data Report', align='C')
+    # set style and size of font 
+    # that you want in the pdf
+    pdf.set_font("Courier", 'B' ,size = 15.0)
+  
+    # create a cell
+    pdf.cell(200, 10, txt = "Patahao Limited", 
+            ln = 1, align = 'C')
+  
+    # add another cell
+    pdf.cell(200, 10, txt = "Rooms Data Report.",
+            ln = 2, align = 'C')
+
+    # add another cell
+    date = datetime.now()
+    today = date.today()
+    d2 = today.strftime("%B %d, %Y")
+
+    t = time.localtime()
+    current_time = time.strftime("%H:%M:%S", t)
+
+    pdf.set_font("Arial", size = 9.0)
+
+    pdf.cell(200, 10, txt = str(d2) + "  " + str(current_time),
+            ln = 1, align = 'C')
+
     pdf.ln(10)
 
-    pdf.set_font('Courier', '', 12)
+    pdf.set_font('Arial', 'B', 11)
         
-    col_width = page_width/7
+    col_width = page_width/5
     
     pdf.ln(1)
         
-    th = pdf.font_size
+    th = 1.5 * (pdf.font_size)
+    
+    pdf.cell(col_width, th, 'ID', border=1)
+    pdf.cell(col_width, th, 'Rent (Kshs)', border=1)
+    pdf.cell(col_width, th, 'Deposit (Kshs)', border=1)
+    pdf.cell(col_width, th, 'Size', border=1)
+    pdf.cell(col_width, th, 'Hostel', border=1)
+    pdf.ln(th)
+
+    pdf.set_font('Arial', '', 10)        
     
     for row in rooms:
         pdf.cell(col_width, th, str(row.id), border=1)
         pdf.cell(col_width, th, str(row.rent), border=1)
         pdf.cell(col_width, th, str(row.deposit), border=1)
-        pdf.cell(col_width, th, row.amenities, border=1)
         pdf.cell(col_width, th, row.size, border=1)
-        pdf.cell(col_width, th, row.status, border=1)
         pdf.cell(col_width, th, row.hostel.name, border=1)
 
         pdf.ln(th)
 
-    pdf.ln(10)
+    pdf.ln(15)
         
     pdf.set_font('Times','',10.0) 
-    pdf.cell(page_width, 0.0, '- end of report -', align='C')
+
+    pdf.cell(200, 10, txt = "- End of report -",
+            ln = 1, align = 'C')
+    pdf.cell(200, 10, txt = "© Copyright pataHao. Reports",
+            ln = 2, align = 'C')
         
     return Response(pdf.output(dest='S').encode('latin-1'), mimetype='application/pdf', headers={'Content-Disposition':'attachment;filename=rooms_report.pdf'})
 
@@ -174,24 +208,59 @@ def hostel_report():
 
     hostels = Hostel.query.order_by(Hostel.id.asc()).all()
 
+
     pdf = FPDF()
     pdf.add_page()
         
     page_width = pdf.w - 2 * pdf.l_margin
         
-    pdf.set_font('Times','B',14.0) 
-    pdf.cell(page_width, 0.0, 'Hostel Data Report', align='C')
+    # set style and size of font 
+    # that you want in the pdf
+    pdf.set_font("Courier", 'B' ,size = 15.0)
+  
+    # create a cell
+    pdf.cell(200, 10, txt = "Patahao Limited", 
+            ln = 1, align = 'C')
+  
+    # add another cell
+    pdf.cell(200, 10, txt = "Hostels Data Report.",
+            ln = 2, align = 'C')
+
+    # add another cell
+    date = datetime.now()
+    today = date.today()
+    d2 = today.strftime("%B %d, %Y")
+
+    t = time.localtime()
+    current_time = time.strftime("%H:%M:%S", t)
+
+    pdf.set_font("Arial", size = 9.0)
+
+    pdf.cell(200, 10, txt = str(d2) + "  " + str(current_time),
+            ln = 1, align = 'C')
+
     pdf.ln(10)
 
-    pdf.set_font('Courier', '', 12)
+    pdf.set_font('Arial', 'B', 11)
         
-    col_width = page_width/5
+    col_width = page_width/6
     
     pdf.ln(1)
         
-    th = pdf.font_size
+    th = 1.5 * (pdf.font_size)
+    
+    pdf.cell(col_width, th, '#', border=1)
+    pdf.cell(col_width, th, 'Name', border=1)
+    pdf.cell(col_width, th, 'Location', border=1)
+    pdf.cell(col_width, th, 'Management', border=1)
+    pdf.cell(col_width, th, 'Caretaker', border=1)
+    pdf.cell(col_width, th, 'Contact', border=1)
+    pdf.ln(th)
+
+    pdf.set_font('Arial', '', 10)    
     
     for row in hostels:
+        pdf.cell(col_width, th, str(row.id), border=1)
         pdf.cell(col_width, th, str(row.name), border=1)
         pdf.cell(col_width, th, str(row.location), border=1)
         pdf.cell(col_width, th, row.management, border=1)
@@ -201,10 +270,14 @@ def hostel_report():
         pdf.ln(th)
 
         
-    pdf.ln(10)
+    pdf.ln(15)
         
     pdf.set_font('Times','',10.0) 
-    pdf.cell(page_width, 0.0, '- end of report -', align='C')
+
+    pdf.cell(200, 10, txt = "- End of report -",
+            ln = 1, align = 'C')
+    pdf.cell(200, 10, txt = "© Copyright pataHao. Reports",
+            ln = 2, align = 'C')
         
     return Response(pdf.output(dest='S').encode('latin-1'), mimetype='application/pdf', headers={'Content-Disposition':'attachment;filename=hostel_report.pdf'})
 

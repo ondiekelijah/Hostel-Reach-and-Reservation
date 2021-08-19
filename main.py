@@ -75,7 +75,9 @@ def result():
     keyword = request.form.get('sval')
 
     if request.method == 'POST':
-        hostels = Hostel.query.filter(or_(Hostel.name.ilike(f'%{keyword}%'), Hostel.location.ilike(f'%{keyword}%'))).all()
+        hostels = Hostel.query.filter(or_(Hostel.name.ilike(f'%{keyword}%'),
+            Hostel.location.ilike(f'%{keyword}%'))).all()
+
         available = Room.query.order_by(Room.id.desc()).all()
         return render_template("main/action.html",hostels=hostels,Room=Room,available=available)
 
@@ -101,9 +103,6 @@ def result():
 
 
 @app.route("/booking/<int:hostel_id>/<int:room_id>/", methods=("GET", "POST"), strict_slashes=False)
-
-
-
 def booking(hostel_id,room_id):
     client = vonage.Client(key="a8c3fad6", secret="8wwGBegjQ5fH4rMr")
     sms = vonage.Sms(client)
@@ -112,17 +111,14 @@ def booking(hostel_id,room_id):
     room = Room.query.filter_by(id=room_id).first()
 
     room_id = room.id
-    hostel_id = hostel.id
     phone_no = request.form.get('phone_no')
 
     if request.method == 'POST':
-        room = BookedRoom(
+        booked_room = BookedRoom(
             room_id = room_id,
-            hostel_id = hostel_id,
             phone_no = phone_no
             )
-
-        db.session.add(room)
+        db.session.add(booked_room)
         hostel.rooms -= 1
         db.session.commit()
 
@@ -130,16 +126,14 @@ def booking(hostel_id,room_id):
             {
                 "from": "Patahao MUT",
                 "to": phone_no,
-                "text": "Your room has been reserved.Report within 2 hours from booking time.Failure to will lead to declaration of a vacancy",
+                "text": "Your room has already been reserved.\nPlease report to the hostel within 2 hours of the booking time.\nFailure to do so will result in a vacancy being declared.\nCall {} {} for further details.".format(hostel.caretaker,hostel.contact),
             }
         )
-
         if responseData["messages"][0]["status"] == "0":
-            flash(f"Your room has been reserved.Report within 2 hours from booking time. Failure to will lead to declaration of a vacancy", "success")
+            flash(f"Your room has already been reserved. Please report to the hostel within 2 hours of the booking time. Failure to do so will result in a vacancy being declared.", "success")
         else:
             flash(f"Message failed with error: {responseData['messages'][0]['error-text']}","danger")
-
-    return render_template("main/booking.html",hostel=hostel,room=room, title="PataHao | Book",)
+    return render_template("main/booking.html",room=room, title="PataHao | Book",)
 
 # Handle Errors
 @app.errorhandler(400)

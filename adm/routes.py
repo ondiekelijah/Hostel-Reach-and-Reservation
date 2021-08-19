@@ -39,6 +39,7 @@ from sqlalchemy.exc import (
 from flask_bcrypt import generate_password_hash, check_password_hash
 from models import *
 from decorators import admin_required, moderator_required, permission_required
+import json,re
 
 adm = Blueprint("adm", __name__, url_prefix="/auth")
 
@@ -52,6 +53,14 @@ def global_hostels():
     g.global_h = list(g_hostels)
     return g.global_h
     
+def all_rooms(par):
+    room_count = list()
+    for i in par:
+        i = re.sub('[^0-9]','', str(i))
+        room_count.append(int(i))
+    available = sum(room_count)
+
+    return available
 
 # ADMIN route
 @adm.route("/admin", methods=("GET", "POST"), strict_slashes=False)
@@ -74,13 +83,18 @@ def admindash():
     data=list((booked,vacant,occupied))
     labels=list(("booked","vacant","occupied"))
 
+
+
     labels2=list(("Bedsitter","Single","1 B","2 B"))
     data2 = list((bs,single,oneb,twob))
 
+    
+
     user_count = User.query.order_by(User.id.desc()).count()
     hostel_count = Hostel.query.order_by(Hostel.id.desc()).count()
-    room_count = Room.query.order_by(Room.id.desc()).count()
-    trans_count = Transactions.query.order_by(Transactions.id.desc()).count()
+
+    room_count = Hostel.query.with_entities(Hostel.rooms).all()
+    room_count = all_rooms(room_count)
 
     return render_template("adm/dashboard.html",
         hostels=hostels,
@@ -91,7 +105,6 @@ def admindash():
         user_count=user_count,
         hostel_count=hostel_count,
         room_count=room_count,
-        trans_count=trans_count,
         title='Admin Dashboard'
         )
 
@@ -262,7 +275,16 @@ def hostel_view(hostel_id):
 def rooms():
     rooms = Room.query.order_by(Room.id.desc()).all()
 
-    return render_template("adm/rooms.html",rooms=rooms,title='Rooms')
+    return render_template("adm/rooms.html",rooms=rooms,title='Booked rooms')
+
+# Booked rooms route
+@adm.route("/rooms/booked", methods=("GET", "POST"), strict_slashes=False)
+@login_required
+@admin_required
+def booked_rooms():
+    rooms = BookedRoom.query.order_by(BookedRoom.id.desc()).all()
+
+    return render_template("adm/booked_rooms.html",rooms=rooms,title='Rooms')
 
                         # ALL EDIT ROUTES
 # Edit user route
