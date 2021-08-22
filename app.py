@@ -28,14 +28,14 @@ search = Search()
 
 def create_app():
     app = Flask(__name__)
-    app.secret_key = "67eadccda3bc198fangeluspaintissalife"
+    app.secret_key = "secret-key"
 
     app.config[
         "SQLALCHEMY_DATABASE_URI"
-    ] = "mysql+mysqlconnector://elie:dev123@localhost/hostel_reach"
+    ] = "mysql+mysqlconnector://database-username:database-password@localhost/database-name"
     # app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///hostel.db"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-    app.config['INFOKIT_ADMIN'] = "eochieng9448@gmail.com"
+    app.config['INFOKIT_ADMIN'] = "admin@gmail.com"
 
     login_manager.init_app(app)
     with app.app_context():

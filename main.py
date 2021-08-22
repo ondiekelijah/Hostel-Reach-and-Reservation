@@ -104,7 +104,7 @@ def result():
 
 @app.route("/booking/<int:hostel_id>/<int:room_id>/", methods=("GET", "POST"), strict_slashes=False)
 def booking(hostel_id,room_id):
-    client = vonage.Client(key="a8c3fad6", secret="8wwGBegjQ5fH4rMr")
+    client = vonage.Client(key="**********", secret="**********")
     sms = vonage.Sms(client)
 
     hostel = Hostel.query.filter_by(id=hostel_id).first()
